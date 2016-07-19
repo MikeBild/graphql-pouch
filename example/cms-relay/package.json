@@ -1,0 +1,63 @@
+{
+  "name": "cms-relay-example",
+  "version": "1.0.0",
+  "description": "A React-Relay CMS UI example using graphql-pouch.",
+  "author": "Mike Bild <mike.bild@gmail.com>",
+  "license": "MIT",
+  "main": "dev-server.js",
+  "scripts": {
+    "build": "npm run build:schema && npm run build:style && npm run build:app",
+    "build:app": "browserify --extension=.jsx src/app/main.jsx -o public/main.js",
+    "build:style": "lessc src/styles/styles.less public/styles.css",
+    "build:schema": "node scripts/updateSchema.js",
+    "dev": "node dev-server.js",
+    "start": "npm run build && npm run dev",
+    "watch": "npm run build:schema && parallelshell \"npm run watch:app\" \"npm run watch:style\" \"npm run dev\"",
+    "watch:app": "nodemon --watch src/app --ext jsx --exec npm run build:app",
+    "watch:style": "nodemon --watch src/styles --ext less --exec npm run build:style",
+    "watch:schema": "nodemon --watch blog.graphql --ext js --exec npm run build:schema"
+  },
+  "devDependencies": {
+    "babel-cli": "6.9.0",
+    "babel-core": "6.9.0",
+    "babel-plugin-transform-runtime": "6.9.0",
+    "babel-preset-es2015": "6.9.0",
+    "babel-preset-react": "6.5.0",
+    "babel-preset-stage-0": "6.5.0",
+    "babel-relay-plugin": "0.9.0",
+    "babel-runtime": "6.9.0",
+    "babelify": "^7.3.0",
+    "browser-sync": "^2.13.0",
+    "browserify": "^13.0.1",
+    "classnames": "^2.2.5",
+    "express": "^4.13.4",
+    "express-history-api-fallback": "^2.0.0",
+    "less": "^2.7.1",
+    "moment": "^2.13.0",
+    "nodemon": "^1.9.2",
+    "parallelshell": "^2.0.0",
+    "react": "^15.1.0",
+    "react-dom": "^15.1.0",
+    "react-relay": "^0.9.0",
+    "react-router": "^2.4.1",
+    "react-router-relay": "^0.13.2",
+    "request": "^2.72.0"
+  },
+  "browserify": {
+    "transform": [
+      [
+        "babelify"
+      ]
+    ]
+  },
+  "babel": {
+    "presets": [
+      "es2015",
+      "react",
+      "stage-0"
+    ],
+    "plugins": [
+      "./scripts/babelRelayPlugin"
+    ]
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "name": "graphql-pouch",
+  "version": "1.0.0",
+  "description": "GraphQL-API runtime on top of PouchDB",
+  "author": "Mike Bild <mike.bild@gmail.com>",
+  "license": "MIT",
+  "homepage": "https://github.com/MikeBild/graphql-pouch#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MikeBild/graphql-pouch.git"
+  },
+  "bugs": {
+    "url": "https://github.com/MikeBild/graphql-pouch/issues"
+  },
+  "main": "server.js",
+  "bin": {
+    "graphql-pouch": "bin/graphql-pouch"
+  },
+  "scripts": {
+    "start": "./bin/graphql-pouch",
+    "test": "./node_modules/.bin/mocha",
+    "dev": "./node_modules/.bin/grunt"
+  },
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "commander": "^2.9.0",
+    "cors": "^2.7.1",
+    "dataloader": "^1.2.0",
+    "debug": "^2.2.0",
+    "express": "^4.14.0",
+    "express-graphql": "^0.5.3",
+    "express-jwt": "^3.4.0",
+    "graphql-relay": "^0.4.2",
+    "jsonwebtoken": "^7.1.6",
+    "lodash": "^4.13.1",
+    "morgan": "^1.7.0",
+    "node-uuid": "^1.4.7",
+    "pouchdb": "^5.4.5",
+    "pouchdb-find": "^0.10.2",
+    "response-time": "^2.3.1",
+    "serve-favicon": "^2.3.0"
+  },
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-nodemon": "^0.4.2",
+    "mocha": "^2.5.3"
+  },
+  "optionalDependencies": {
+    "graphql": "^0.6.1"
+  }
+}

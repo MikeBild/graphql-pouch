@@ -1,0 +1,1 @@
+window.__env = {ENDPOINT:'http://localhost:3000/graphql/cms'};

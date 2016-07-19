@@ -1,0 +1,61 @@
+interface Entry {
+  id: ID!
+  createdAt: String
+}
+
+type Person implements Node {
+  id: ID!
+  rev: String
+  name: String
+  email: String
+  entries: [Entry]
+  blogs: [Blog]
+}
+
+type Blog implements Node {
+  id: ID!
+  rev: String
+  name: String
+  URL: String
+  personId: ID
+  person: Person
+  entries: [Entry]
+}
+
+type Post implements Entry, Node {
+  id: ID!
+  rev: String
+  createdAt: String
+  modifiedAt: String
+  title: String
+  body: String
+  URL: String
+  blogId: ID
+  blog: Blog
+  personId: ID
+  person: Person
+  comments: [Comment]
+}
+
+type Comment implements Entry, Node {
+  id: ID!
+  rev: String
+  createdAt: String
+  modifiedAt: String
+  body: String
+  personId: ID
+  person: Person
+  postId: ID
+  post: Post
+  comments: [Comment]
+}
+
+type FunctionData {
+  msg: String
+  log: String
+  myId: ID
+}
+
+type Query {
+  demofunc1(id: ID) : FunctionData
+}

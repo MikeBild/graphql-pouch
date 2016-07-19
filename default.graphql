@@ -1,0 +1,47 @@
+#GraphQL shorthand notation
+type Schema implements Node {
+  id: ID!
+  #Revision
+  rev: String
+  description: String
+  content: String
+}
+
+#Lambda function for custom code execution
+type Lambda implements Node {
+  id: ID!
+  #Revision
+  rev: String
+  description: String
+  content: String
+}
+
+#Static content file for e.g. React-App hosting
+type Static implements Node {
+  id: ID!
+  #Revision
+  rev: String
+  description: String
+  content: String
+}
+
+input SchemaInput {
+  id: ID!
+  rev: String
+  description: String
+  content: String!
+}
+
+input LambdaInput {
+  id: ID!
+  rev: String
+  description: String
+  content: String!
+}
+
+input StaticInput {
+  id: ID!
+  rev: String
+  description: String
+  content: String!
+}
