@@ -14,17 +14,17 @@ program
   .option('-p, --port <integer>', 'a URL port the server will listen to. defaults to 3000', parseInt)
   .option('-d, --development', 'enables a development mode which enables GraphiQL, nicer errors, and JSON pretty printing')
   .option('-e, --no-relay', 'disables the GraphQL Relay extentions')
-  .option('-a, --secret <secret>', 'the secret to be used to encrypt tokens. token authentication disabled if this is not set')
+  .option('-a, --secret <string>', 'the secret to be used to encrypt tokens. token authentication disabled if this is not set')
   .option('-g, --graphql <file>', 'Migrate GraphQL schema file', migrateSchemaFile)
   .option('-s, --static <file>', 'Migrate static content file', migrateStaticFile)
-  .option('-l, --lambda <file>', 'Migrate lambda function file', migrateLambdaFile)
-  .option('-y, --sign <secret>', 'the secret to be used to sign and encrypt tokens.', jwtSignSecret)
+  .option('-l, --function <file>', 'Migrate custom JS function file', migrateFunctionFile)
+  .option('-y, --sign <string>', 'the secret to be used to sign and encrypt tokens.', jwtSignSecret)
   .parse(process.argv);
 
-if(program.graphql 
-  || program.static 
-  || program.lambda 
-  || program.sign) 
+if(program.graphql
+  || program.static
+  || program.Function
+  || program.sign)
   return console.log('\nOperation successful');
 
 const app = graphqlPouch.init({
@@ -81,7 +81,7 @@ function migrateStaticFile(args){
     .catch(error => console.dir(error.message));
 }
 
-function migrateLambdaFile(args){
+function migrateFunctionFile(args){
   const docid = path.parse(args).name;
   const contentFilePath = path.resolve(args);
   const content = fs.readFileSync(contentFilePath).toString();
@@ -95,7 +95,7 @@ function migrateLambdaFile(args){
     })
     .then(doc => {
       doc.content = content;
-      doc.doctype = 'Lambda';
+      doc.doctype = 'Function';
       doc.docid = docid;
 
       return pouchdb.put(doc);
@@ -103,7 +103,7 @@ function migrateLambdaFile(args){
     .catch(error => console.dir(error.message));
 }
 
-function jwtSignSecret(args){  
+function jwtSignSecret(args){
   const authToken = jwt.sign({user: 'admin', role: 'admin'}, args, {audience: 'graphql-pouch'});
   console.log(`JWT token generated. Use the following authorization method:\n`);
   console.log(`------------------- as HTTP Header --------------------`);
