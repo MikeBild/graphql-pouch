@@ -26,16 +26,16 @@ app.use(expressFavicon(path.join(__dirname, 'favicon.ico')));
 
 app.use('/graphql/:name?', checkJWT, (req, res, next) => {
   let schemaName = req.params.name || 'default';
-  let environment = envs[schemaName];  
+  let environment = envs[schemaName];
   if(environment.secret && !req.role === 'admin') return res.sendStatus(401);
   if(!environment || !environment.graphql) return res.status(404).send({message: 'Not found'});
 
-  return expressGraphQL({ 
-    schema: environment.graphql.schema, 
+  return expressGraphQL({
+    schema: environment.graphql.schema,
     context: {environment: schemaName, user: req.user},
     pretty: environment.development,
     graphiql: environment.development,
-    formatError: environment.development ? developmentFormatError : GraphQL.formatError,    
+    formatError: environment.development ? developmentFormatError : GraphQL.formatError,
     graphiql: true,
   })(req, res, next);
 });
@@ -48,7 +48,7 @@ app.all('/functions/:name', checkJWT, (req, res, next) => {
     name: req.params.name,
     user: req.user,
   };
-  
+
   customFunctions
     .exec(payload)
     .then(data => {
@@ -58,22 +58,22 @@ app.all('/functions/:name', checkJWT, (req, res, next) => {
     })
     .catch(error => {
       if(error && error.message === 'Not found') return res.status(404).send({message: error.message});
-      res.status(500).send({message: error.message})
+      res.status(500).send({message: error.message});
     });
 });
 app.get('/*', checkJWT, (req, res, next) => {
-  const defaultEnvironment = envs['default']; 
+  const defaultEnvironment = envs['default'];
   if(defaultEnvironment.secret && !req.role === 'admin') return res.sendStatus(401);
 
   const docid = path.parse(req.params[0] || 'index.html').name;
-  const selector = { selector:{docid:docid,doctype:'Static'} };
-  
+  const selector = { selector:{docid:docid, doctype:'Static'} };
+
   PouchDB.createPouchDB('default')
     .find(selector)
     .then(data => ({
       id: docid,
       content: (data.docs && data.docs[0]) ? data.docs[0].content : undefined
-    }))    
+    }))
     .then(data => {
       if(!data.content) return res.sendStatus(404);
       res.send(data.content);
@@ -91,19 +91,19 @@ module.exports = {
     initEnvs(options)
       .then(data => {
         data.forEach(x => {
-          if(x.message) return console.log(`GraphQL schema ${x.name} initialization error: ${x.message}`)
+          if(x.message) return console.log(`GraphQL schema ${x.name} initialization error: ${x.message}`);
           console.log(`GraphQL schema ${x.name} initialized`);
-        })
+        });
       });
     return {
       default: () => resolveEnv('default', null, options),
       start: () => {
         console.log('Starting GraphQL-API runtime ...');
-        let server = app.listen(options.port, 
-          () => console.log(`Listen on port ${server.address().port} 
-CouchDB sync URL: ${options.couchURL || 'none'} 
-Relay enabled: ${options.relay || false} 
-Development mode: ${options.development} 
+        let server = app.listen(options.port,
+          () => console.log(`Listen on port ${server.address().port}
+CouchDB sync URL: ${options.couchURL || 'none'}
+Relay enabled: ${options.relay || false}
+Development mode: ${options.development}
 JWT-Authentication: ${options.secret ? true : false}`)
           );
         if (options.development) app.use(logger(options.development ? 'dev' : 'common'));
@@ -113,7 +113,7 @@ JWT-Authentication: ${options.secret ? true : false}`)
   }
 };
 
-function resolveEnv(name, schemaDef, options, customFunctionNames){ 
+function resolveEnv(name, schemaDef, options, customFunctionNames) {
   if(!envs[name]) {
     const schemaFilePath = path.join(__dirname, name+'.graphql');
 
@@ -128,18 +128,18 @@ function resolveEnv(name, schemaDef, options, customFunctionNames){
 }
 
 function developmentFormatError(error) {
-  console.error(error.stack) // eslint-disable-line no-console
+  console.error(error.stack);
   return {
     message: error.message,
     locations: error.locations,
     stack: error.stack,
-  }
+  };
 }
 
 function initEnvs(options){
   const defaultPouchDB = PouchDB.createPouchDB('default');
   const defaultPouchDBSync = PouchDB.sync('default', options.couchURL, options.continuous_sync);
-  
+
   return defaultPouchDB
     .find({ selector:{doctype:'Function'} })
     .then(functionDocs => functionDocs.docs.map(x => x._id))
@@ -161,7 +161,7 @@ function initEnvs(options){
 
 function checkJWT(req, res, next){
   return expressJWT({
-    secret: resolveSecret, 
+    secret: resolveSecret,
     credentialsRequired: resolveEnv('default').secret ? true : false,
     getToken: () => getTokenFromHeaderOrQuerystring(req),
   })(req, res, next);

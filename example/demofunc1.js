@@ -1,6 +1,6 @@
 const uuid = require('node-uuid');
 module.exports = (ctx, data) => {
-  ctx.log(data)
+  ctx.log(data);
   ctx.pouchdb('cms')
     .allDocs({include_docs: true})
     .then(data => {
@@ -10,4 +10,4 @@ module.exports = (ctx, data) => {
         myId: uuid.v1()
       });
     });
-}
+};

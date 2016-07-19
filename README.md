@@ -21,6 +21,9 @@ For more information run:
 graphql-pouch -h
 ```
 
+Check out the [CMS example](https://github.com/MikeBild/graphql-pouch/tree/master/example/cms-relay) for a demo of GraphQL-Pouch, Relay and React in action.
+
+
 ## Benefits
 
 GraphQL-Pouch uses the joint benefits of PouchDB and GraphQL to provide a number of key benefits.
@@ -78,6 +81,12 @@ If you have found a bug or if you have a feature request, please report them at 
 ## License
 
 This project is licensed under the MIT license. See the [LICENSE](LICENSE) file for more info.
+
+## Thanks
+
+You like this GraphQL server and you want to see what coming next? Follow me on Twitter [`@mikebild`](https://twitter.com/mikebild).
+
+Enjoy!
 
 ## Credits
 

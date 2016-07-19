@@ -1,6 +1,6 @@
 // Adapted from graphql-js's starWarsData.js
 
-var luke = {
+const luke = {
   id: '1000',
   name: 'Luke Skywalker',
   friends: [ '1002', '1003', '2000', '2001' ],
@@ -8,7 +8,7 @@ var luke = {
   homePlanet: 'Tatooine',
 };
 
-var vader = {
+const vader = {
   id: '1001',
   name: 'Darth Vader',
   friends: [ '1004' ],
@@ -16,14 +16,14 @@ var vader = {
   homePlanet: 'Tatooine',
 };
 
-var han = {
+const han = {
   id: '1002',
   name: 'Han Solo',
   friends: [ '1000', '1003', '2001' ],
   appearsIn: [ 4, 5, 6 ],
 };
 
-var leia = {
+const leia = {
   id: '1003',
   name: 'Leia Organa',
   friends: [ '1000', '1002', '2000', '2001' ],
@@ -31,14 +31,14 @@ var leia = {
   homePlanet: 'Alderaan',
 };
 
-var tarkin = {
+const tarkin = {
   id: '1004',
   name: 'Wilhuff Tarkin',
   friends: [ '1001' ],
   appearsIn: [ 4 ],
 };
 
-var humanData = {
+const humanData = {
   1000: luke,
   1001: vader,
   1002: han,
@@ -46,7 +46,7 @@ var humanData = {
   1004: tarkin,
 };
 
-var threepio = {
+const threepio = {
   id: '2000',
   name: 'C-3PO',
   friends: [ '1000', '1002', '1003', '2001' ],
@@ -54,7 +54,7 @@ var threepio = {
   primaryFunction: 'Protocol',
 };
 
-var artoo = {
+const artoo = {
   id: '2001',
   name: 'R2-D2',
   friends: [ '1000', '1002', '1003' ],
@@ -62,7 +62,7 @@ var artoo = {
   primaryFunction: 'Astromech',
 };
 
-var droidData = {
+const droidData = {
   2000: threepio,
   2001: artoo,
 };
@@ -93,7 +93,7 @@ module.exports = {
 
   Character: {
     resolveType(obj, ctx, info) {
-      return obj.id[0] === '1' ? 'Human' : info.schema.getType('Droid')
+      return obj.id[0] === '1' ? 'Human' : info.schema.getType('Droid');
     }
   },
 
@@ -117,4 +117,4 @@ module.exports = {
     droid: getDroid
   }
 
-}
+};

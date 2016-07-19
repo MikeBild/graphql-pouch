@@ -19,8 +19,17 @@
   "scripts": {
     "start": "./bin/graphql-pouch",
     "test": "./node_modules/.bin/mocha",
-    "dev": "./node_modules/.bin/grunt"
+    "dev": "./node_modules/.bin/grunt",
+    "lint": "./node_modules/.bin/eslint ./**/*.js"
   },
+  "keywords": [
+    "graphql",
+    "pouchdb",
+    "couchdb",
+    "server",
+    "relay",
+    "connection"
+  ],
   "dependencies": {
     "body-parser": "^1.15.2",
     "commander": "^2.9.0",
@@ -38,14 +47,27 @@
     "pouchdb": "^5.4.5",
     "pouchdb-find": "^0.10.2",
     "response-time": "^2.3.1",
-    "serve-favicon": "^2.3.0"
+    "serve-favicon": "^2.3.0",
+    "graphql": "^0.6.1"
   },
   "devDependencies": {
+    "eslint": "^3.1.1",
+    "eslint-config-default": "^0.2.1",
+    "eslint-config-defaults": "^9.0.0",
     "grunt": "^1.0.1",
     "grunt-nodemon": "^0.4.2",
     "mocha": "^2.5.3"
   },
-  "optionalDependencies": {
-    "graphql": "^0.6.1"
+  "eslintConfig": {
+    "env": {
+      "node": true
+    },
+    "rules": {
+      "semi": ["error", "always"],
+      "comma-dangle": ["off"],
+      "space-before-function-paren":["off"],
+      "quotes": ["off", "single", {"avoidEscape": true, "allowTemplateLiterals": true}]
+    },
+    "extends": "default"
   }
 }

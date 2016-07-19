@@ -1,19 +1,19 @@
-var parse = require('../lib/pouch-graphql/parse')
-var join = require('path').join
-var assert = require('assert')
-var fs = require('fs')
-var implementation = require('./implementation')
-var Schema = require('../lib/pouch-graphql')
+const parse = require('../lib/pouch-graphql/parse');
+const join = require('path').join;
+const assert = require('assert');
+const fs = require('fs');
+const implementation = require('./implementation');
+const Schema = require('../lib/pouch-graphql');
 
 describe('parser', function() {
   it('should work on the kitchen sink', function() {
-    var schema = read('schema.graphql')
-    var expected = json('schema.json')
-    assert.deepEqual(parse(schema), expected)
-  })
-})
+    const schema = read('schema.graphql');
+    const expected = json('schema.json');
+    assert.deepEqual(parse(schema), expected);
+  });
+});
 
-var gql = Schema(read('star-wars.graphql'), implementation)
+const gql = Schema(read('star-wars.graphql'), implementation);
 
 describe('Star Wars Query Tests', () => {
 
@@ -32,7 +32,7 @@ describe('Star Wars Query Tests', () => {
           name: 'R2-D2'
         }
       };
-      return gql.query(query).then(result => assert.deepEqual(result, { data: expected }))
+      return gql.query(query).then(result => assert.deepEqual(result, { data: expected }));
     });
 
     it('Allows us to query for the ID and friends of R2-D2', () => {
@@ -66,7 +66,7 @@ describe('Star Wars Query Tests', () => {
       };
       return gql.query(query).then(result => {
         assert.deepEqual(result, { data: expected });
-      })
+      });
     });
   });
 
@@ -146,7 +146,7 @@ describe('Star Wars Query Tests', () => {
       };
       return gql.query(query).then(result => {
         assert.deepEqual(result, { data: expected });
-      })
+      });
     });
   });
 
@@ -166,7 +166,7 @@ describe('Star Wars Query Tests', () => {
       };
       return gql.query(query).then(result => {
         assert.deepEqual(result, { data: expected });
-      })
+      });
     });
 
     it('Allows us to create a generic query, then use it to fetch Luke Skywalker using his ID', () => {
@@ -187,7 +187,7 @@ describe('Star Wars Query Tests', () => {
       };
       return gql.query(query, params).then(result => {
         assert.deepEqual(result, { data: expected });
-      })
+      });
     });
 
     it('Allows us to create a generic query, then use it to fetch Han Solo using his ID', () => {
@@ -208,7 +208,7 @@ describe('Star Wars Query Tests', () => {
       };
       return gql.query(query, params).then(result => {
         assert.deepEqual(result, { data: expected });
-      })
+      });
     });
 
     it('Allows us to create a generic query, then pass an invalid ID to get null back', () => {
@@ -227,7 +227,7 @@ describe('Star Wars Query Tests', () => {
       };
       return gql.query(query, params).then(result => {
         assert.deepEqual(result, { data: expected });
-      })
+      });
     });
   });
 
@@ -247,7 +247,7 @@ describe('Star Wars Query Tests', () => {
       };
       return gql.query(query).then(result => {
         assert.deepEqual(result, { data: expected });
-      })
+      });
     });
 
     it('Allows us to query for both Luke and Leia, using two root fields and an alias', () => {
@@ -271,7 +271,7 @@ describe('Star Wars Query Tests', () => {
       };
       return gql.query(query).then(result => {
         assert.deepEqual(result, { data: expected });
-      })
+      });
     });
   });
 
@@ -301,7 +301,7 @@ describe('Star Wars Query Tests', () => {
       };
       return gql.query(query).then(result => {
         assert.deepEqual(result, { data: expected });
-      })
+      });
     });
 
     it('Allows us to use a fragment to avoid duplicating content', () => {
@@ -331,7 +331,7 @@ describe('Star Wars Query Tests', () => {
       };
       return gql.query(query).then(result => {
         assert.deepEqual(result, { data: expected });
-      })
+      });
     });
   });
 
@@ -353,7 +353,7 @@ describe('Star Wars Query Tests', () => {
       };
       return gql.query(query).then(result => {
         assert.deepEqual(result, { data: expected });
-      })
+      });
     });
 
     it('Allows us to verify that Luke is a human', () => {
@@ -373,7 +373,7 @@ describe('Star Wars Query Tests', () => {
       };
       return gql.query(query).then(result => {
         assert.deepEqual(result, { data: expected });
-      })
+      });
     });
   });
 });
@@ -382,7 +382,7 @@ describe('Using query() syntax', () => {
 
   it('should support query(...)', () => {
 
-    var query = Schema(`
+    const query = Schema(`
       type Person {
         name: String
         age: Int
@@ -402,7 +402,7 @@ describe('Using query() syntax', () => {
         person: function (root, args) {
           return {
             name: 'Matt'
-          }
+          };
         }
       },
       Mutation: {
@@ -410,10 +410,10 @@ describe('Using query() syntax', () => {
           return {
             name: args.person.name,
             age: args.person.age
-          }
+          };
         }
       }
-    })
+    });
 
     return query(`
       query Q($names: [String]) {
@@ -430,17 +430,17 @@ describe('Using query() syntax', () => {
             "name": "Matt"
           }
         }
-      })
-    })
+      });
+    });
 
-  })
+  });
 
   it('should pass root and context value', () => {
 
-    var rootValue = 'root-value';
-    var contextValue = 'context-value';
+    const rootValue = 'root-value';
+    const contextValue = 'context-value';
 
-    var query = Schema(`
+    const query = Schema(`
       type Person {
         id: Int
       }
@@ -455,7 +455,7 @@ describe('Using query() syntax', () => {
           return { "id": 1 };
         }
       }
-    })
+    });
 
     return query(`
         query Q($id: Int!) {
@@ -475,16 +475,16 @@ describe('Using query() syntax', () => {
           }
         }
       });
-    })
+    });
 
-  })
+  });
 
 });
 
 function read (path) {
-  return fs.readFileSync(join(__dirname, 'fixtures', path), 'utf8')
+  return fs.readFileSync(join(__dirname, 'fixtures', path), 'utf8');
 }
 
 function json (path) {
-  return require(join(__dirname, 'fixtures', path))
+  return require(join(__dirname, 'fixtures', path));
 }
