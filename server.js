@@ -36,7 +36,6 @@ app.use('/graphql/:name?', checkJWT, (req, res, next) => {
     pretty: environment.development,
     graphiql: environment.development,
     formatError: environment.development ? developmentFormatError : GraphQL.formatError,
-    graphiql: true,
   })(req, res, next);
 });
 app.all('/functions/:name', checkJWT, (req, res, next) => {
@@ -90,15 +89,16 @@ module.exports = {
   init: (options) => {
     initEnvs(options)
       .then(data => {
+        console.log('\nSupported GraphQL schemas:');
         data.forEach(x => {
           if(x.message) return console.log(`GraphQL schema ${x.name} initialization error: ${x.message}`);
-          console.log(`GraphQL schema ${x.name} initialized`);
+          console.log(`${x.name} initialized and running - http://127.0.0.1:${options.port}/graphql/${x.name}`);
         });
       });
     return {
       default: () => resolveEnv('default', null, options),
       start: () => {
-        console.log('Starting GraphQL-API runtime ...');
+        console.log('\nStarting GraphQL-API runtime ...');
         let server = app.listen(options.port,
           () => console.log(`Listen on port ${server.address().port}
 CouchDB sync URL: ${options.couchURL || 'none'}

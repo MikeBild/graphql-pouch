@@ -21,7 +21,7 @@ graphql-pouch --help
 ## Enable JWT Authentication
 
 ```bash
-graphql-pouch --string <string>
+graphql-pouch --secret <string>
 ```
 
 ## Enable GraphiQL, pretty print, debug development mode
@@ -48,7 +48,7 @@ graphql-pouch --version
 graphql-pouch --no-relay
 ```
 
-## Sign a JWT token
+## Sign a JSON Web Token
 
 ```bash
 graphql-pouch --sign <string>

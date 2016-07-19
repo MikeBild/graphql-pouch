@@ -21,8 +21,32 @@ For more information run:
 graphql-pouch -h
 ```
 
-Check out the [CMS example](https://github.com/MikeBild/graphql-pouch/tree/master/example/cms-relay) for a demo of GraphQL-Pouch, Relay and React in action.
+##GraphiQL UI for development becomes standard
 
+[GraphiQL](https://github.com/graphql/graphiql) is a awesome web based tool by Facebook to let you interactively explore your data and your API. When development mode is enabled in GraphQL-Pouch, the GraphiQL interface will be automatically displayed at your GraphQL endpoint.
+
+__Example__
+
+```bash
+graphql-pouch --development
+```
+
+```bash
+Listen on port 3000
+CouchDB sync URL: none
+Relay enabled: true
+Development mode: true
+JWT-Authentication: false
+
+Supported GraphQL schemas:
+cms initialized and running - http://127.0.0.1:3000/graphql/cms
+```
+
+Navigate to the URL printed to your console after starting GraphQL-Pouch and use GraphiQL to fetch your data. When you want to use GraphQL-Pouch in production mode, the [GraphiQL-App](https://github.com/skevy/graphiql-app) is ideally suited.
+
+## GraphQL and Relay
+
+Check out the [CMS example](https://github.com/MikeBild/graphql-pouch/tree/master/example/cms-relay) for a demo of GraphQL-Pouch, Relay and React in action.
 
 ## Benefits
 
@@ -43,12 +67,12 @@ In the future, things that GraphQL-Pouch will include:
 
 * HTTPS Support
 * Mock/Fake data results
-* Runtime traceability using resolver timings 
-* Role base authorization 
+* Runtime traceability using resolver timings
+* Role base authorization
 * GraphQL-Pouch as a library
 * MongoDB query language inspired subselections
 * DataLoader for batching and caching optimization
-* Subscriptions using PouchDB change notifications 
+* Subscriptions using PouchDB change notifications
 
 and, of course:
 
