@@ -57,7 +57,7 @@ graphql-pouch --sign <string>
 ## Migrate a GraphQL-Schema file
 
 ```bash
-graphql-pouch --graphql <filename>
+graphql-pouch --schema <filename>
 ```
 
 ## Migrate a custom JS function file

@@ -15,13 +15,13 @@ program
   .option('-d, --development', 'enables a development mode which enables GraphiQL, nicer errors, and JSON pretty printing')
   .option('-e, --no-relay', 'disables the GraphQL Relay extentions')
   .option('-a, --secret <string>', 'the secret to be used to encrypt tokens. token authentication disabled if this is not set')
-  .option('-g, --graphql <file>', 'Migrate GraphQL schema file', migrateSchemaFile)
+  .option('-g, --schema <file>', 'Migrate GraphQL schema file', migrateSchemaFile)
   .option('-s, --static <file>', 'Migrate static content file', migrateStaticFile)
   .option('-l, --function <file>', 'Migrate custom JS function file', migrateFunctionFile)
   .option('-y, --sign <string>', 'the secret to be used to sign and encrypt tokens.', jwtSignSecret)
   .parse(process.argv);
 
-if(program.graphql
+if(program.schema
   || program.static
   || program.Function
   || program.sign)
