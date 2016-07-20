@@ -89,10 +89,10 @@ module.exports = {
   init: (options) => {
     initEnvs(options)
       .then(data => {
-        console.log('\nSupported GraphQL schemas:');
         data.forEach(x => {
           if(x.message) return console.log(`GraphQL schema ${x.name} initialization error: ${x.message}`);
-          console.log(`${x.name} initialized and running - http://127.0.0.1:${options.port}/graphql/${x.name}`);
+          console.log(`Schema ${x.name} initialized`);
+          if(options.development) return console.log(`Schema ${x.name} running - http://127.0.0.1:${options.port}/graphql/${x.name}`);
         });
       });
     return {
