@@ -1,6 +1,6 @@
 # GraphQL-Pouch Star-Wars Example
 
-This contains an example GraphQL shorthand notation schema which will work with GraphQL-Pouch.
+This contains an example GraphQL shorthand notation schema which will work with GraphQL-Pouch without the GraphQL-Relay extentions.
 
 ## Setup
 
