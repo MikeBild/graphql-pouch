@@ -1,0 +1,15 @@
+{
+  "private": true,
+  "name": "graphql-pouch-star-wars-example",
+  "version": "1.0.0",
+  "description": "A GraphQL-Pouch Star Wars example.",
+  "author": "Mike Bild <mike.bild@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "schema": "./node_modules/.bin/graphql-pouch --schema starwars.graphql",
+    "start": "./node_modules/.bin/graphql-pouch --development --no-relay"
+  },
+  "dependencies": {
+    "graphql-pouch": "https://github.com/MikeBild/graphql-pouch.git"
+  }
+}
