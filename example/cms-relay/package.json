@@ -1,10 +1,10 @@
 {
+  "private": true,
   "name": "cms-relay-example",
   "version": "1.0.0",
   "description": "A React-Relay CMS UI example using graphql-pouch.",
   "author": "Mike Bild <mike.bild@gmail.com>",
   "license": "MIT",
-  "main": "dev-server.js",
   "scripts": {
     "build": "npm run build:schema && npm run build:style && npm run build:app",
     "build:app": "browserify --extension=.jsx src/app/main.jsx -o public/main.js",
@@ -15,7 +15,12 @@
     "watch": "npm run build:schema && parallelshell \"npm run watch:app\" \"npm run watch:style\" \"npm run dev\"",
     "watch:app": "nodemon --watch src/app --ext jsx --exec npm run build:app",
     "watch:style": "nodemon --watch src/styles --ext less --exec npm run build:style",
-    "watch:schema": "nodemon --watch blog.graphql --ext js --exec npm run build:schema"
+    "watch:schema": "nodemon --watch blog.graphql --ext js --exec npm run build:schema",
+    "graphql-pouch:schema": "./node_modules/.bin/graphql-pouch --schema scripts/cms.graphql",
+    "graphql-pouch": "./node_modules/.bin/graphql-pouch --development"
+  },
+  "dependencies": {
+    "graphql-pouch": "https://github.com/MikeBild/graphql-pouch.git"
   },
   "devDependencies": {
     "babel-cli": "6.9.0",
