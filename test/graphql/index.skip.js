@@ -1,9 +1,11 @@
-const parse = require('../lib/pouch-graphql/parse');
-const join = require('path').join;
-const assert = require('assert');
 const fs = require('fs');
+const assert = require('assert');
+const join = require('path').join;
+
+const parse = require('../../lib/pouch-graphql/parse');
 const implementation = require('./implementation');
-const Schema = require('../lib/pouch-graphql');
+const Schema = require('../../lib/pouch-graphql');
+const gql = Schema(read('star-wars.graphql'), implementation);
 
 describe('parser', function() {
   it('should work on the kitchen sink', function() {
@@ -12,8 +14,6 @@ describe('parser', function() {
     assert.deepEqual(parse(schema), expected);
   });
 });
-
-const gql = Schema(read('star-wars.graphql'), implementation);
 
 describe('Star Wars Query Tests', () => {
 
