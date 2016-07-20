@@ -2,6 +2,13 @@
 
 *A GraphQL-API runtime on top of PouchDB created by GraphQL shorthand notation as a self contained service with CouchDB synchonisation.*
 
+__Objectives - evaluating for your project__
+
+* Frontend-First-Driven approach without backend/database migrations
+* Friendly GraphQL shorthand notation spec to create typed data model definitions fast and easy
+* Self-contained // no infrastructure dependencies // no lock in
+* Customizable for seamless integration of existing resources
+
 ## Usage
 First install using npm:
 
@@ -56,8 +63,9 @@ GraphQL-Pouch uses the joint benefits of PouchDB and GraphQL to provide a number
 * [100% Relay](doc/using-relay.md) compliant
 * [Command Line Interface](doc/CLI.md)
 * [JWT Authentication support](doc/jwt-authentication.md)
-* [Advanced GraphQL-Queries and Mutations](doc/advanced-queries.md) via custom JavaScript functions
-* Fully documented GraphQL-APIs via [GraphiQL-UI](https://github.com/graphql/graphiql) for development
+* [Custom GraphQL-Queries and Mutations](doc/custom-functions.md) via JavaScript functions
+* Fully documented API and [GraphiQL-UI](https://github.com/graphql/graphiql) for development
+* Serves multiple GraphQL schemas
 * Completely self contained with optional CouchDB Master/Master server syncronisation
 * Supports relationships, types, comments, pagination, and more providing by GraphQL, PouchDB and CouchDB
 * Serving static files for e.g. React-Application hosting
@@ -68,7 +76,7 @@ In the future, things that GraphQL-Pouch will include:
 * HTTPS Support
 * Mock/Fake data results
 * Runtime traceability using resolver timings
-* Role base authorization
+* Role based authorization
 * GraphQL-Pouch as a library
 * MongoDB query language inspired subselections
 * DataLoader for batching and caching optimization
