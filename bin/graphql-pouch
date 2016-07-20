@@ -23,7 +23,7 @@ program
 
 if(program.schema
   || program.static
-  || program.Function
+  || program.function
   || program.sign)
   return console.log('\nOperation successful');
 
