@@ -1,0 +1,8 @@
+type Post {
+  # Document key
+  id: ID
+  # Document revision
+  rev: String
+  # The fullname of the user
+  name: String
+}
