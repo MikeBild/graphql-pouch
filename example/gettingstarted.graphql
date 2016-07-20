@@ -6,3 +6,7 @@ type Post {
   # The fullname of the user
   name: String
 }
+
+type Query {
+  loadPostsByName(name: String): [Post]
+}
