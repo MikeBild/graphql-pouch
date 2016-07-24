@@ -88,10 +88,9 @@ describe('No-Relay integration tests', function() {
         const schemaQuery = helper.read(`${TEST_FIXTURES}/${testName}.graphql`);
         const variableValues = null;
 
-        return sut.query(schemaQuery, variableValues, rootValue, contextValue, operationName)
-          .then(result => {
-            assert.deepEqual(result, expectedData)
-          });
+        return sut
+          .query(schemaQuery, variableValues, rootValue, contextValue, operationName)
+          .then(result => assert.deepEqual(result, expectedData));
       });
     }
   });
