@@ -77,12 +77,12 @@ describe('Integration tests', function() {
 
       it(`GraphQL query ${testName}`, () => {
         const sut = graphqlPouchSchema(ENVIRONMENT, SCHEMA_DEFINITION, false, []);
-        const expectedData = helper.json(`test/integration/fixtures/${testName}.json`);
+        const expectedData = helper.json(`${TEST_FIXTURES}/${testName}.json`);
 
         const operationName = null;
         const rootValue = null;
         const contextValue = {environment:ENVIRONMENT, user: {}};
-        const schemaQuery = helper.read(`test/integration/fixtures/${testName}.graphql`);
+        const schemaQuery = helper.read(`${TEST_FIXTURES}/${testName}.graphql`);
         const variableValues = null;
 
         return sut.query(schemaQuery, variableValues, rootValue, contextValue, operationName)
@@ -90,7 +90,6 @@ describe('Integration tests', function() {
             assert.deepEqual(result, expectedData)
           });
       });
-
     }
   });
 
