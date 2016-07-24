@@ -40,7 +40,7 @@ type Tag {
 }
 `;
 
-describe('No-Relay integration tests', function() {
+describe('Integration tests (no-relay)', function() {
   const db = PouchDB.createPouchDB(ENVIRONMENT);
 
   before(() => {
