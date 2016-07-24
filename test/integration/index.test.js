@@ -1,7 +1,8 @@
 const fs = require('fs');
-const assert = require('assert');
 const path = require('path');
+const assert = require('assert');
 
+const helper = require('../helper');
 const PouchDB = require('../../lib/pouch-graphql/pouchdb');
 const graphql = require('graphql').graphql;
 const graphqlPouchSchema = require('../../lib/pouch-graphql');
@@ -72,16 +73,16 @@ describe('Integration tests', function() {
 
   fs.readdirSync(TEST_FIXTURES).forEach(fileName => {
     if (path.extname(fileName) === '.graphql') {
-      const name = path.basename(fileName, '.graphql');
+      const testName = path.basename(fileName, '.graphql');
 
-      it(`GraphQL query ${name}`, () => {
+      it(`GraphQL query ${testName}`, () => {
         const sut = graphqlPouchSchema(ENVIRONMENT, SCHEMA_DEFINITION, false, []);
-        const expectedData = json(`${name}.json`);
+        const expectedData = helper.json(`test/integration/fixtures/${testName}.json`);
 
         const operationName = null;
         const rootValue = null;
         const contextValue = {environment:ENVIRONMENT, user: {}};
-        const schemaQuery = read(`${name}.graphql`);
+        const schemaQuery = helper.read(`test/integration/fixtures/${testName}.graphql`);
         const variableValues = null;
 
         return sut.query(schemaQuery, variableValues, rootValue, contextValue, operationName)
@@ -94,11 +95,3 @@ describe('Integration tests', function() {
   });
 
 });
-
-function read (filePath) {
-  return fs.readFileSync(path.join(__dirname, 'fixtures', filePath), 'utf8');
-}
-
-function json (filePath) {
-  return require(path.join(__dirname, 'fixtures', filePath));
-}
