@@ -8,7 +8,10 @@ const graphql = require('graphql').graphql;
 const graphqlPouchSchema = require('../../lib/pouch-graphql');
 
 const ENVIRONMENT = 'test';
+const USER = {};
 const TEST_FIXTURES = 'test/integration/fixtures';
+const ENABLE_RELAY = false;
+const CUSTOM_FUNCTIONS = [];
 const SCHEMA_DEFINITION = `
 type Post {
   id: ID
@@ -37,7 +40,7 @@ type Tag {
 }
 `;
 
-describe('Integration tests', function() {
+describe('No-Relay integration tests', function() {
   const db = PouchDB.createPouchDB(ENVIRONMENT);
 
   before(() => {
@@ -72,16 +75,16 @@ describe('Integration tests', function() {
   });
 
   fs.readdirSync(TEST_FIXTURES).forEach(fileName => {
-    if (path.extname(fileName) === '.graphql') {
+    if(path.extname(fileName) === '.graphql') {
       const testName = path.basename(fileName, '.graphql');
 
       it(`GraphQL query ${testName}`, () => {
-        const sut = graphqlPouchSchema(ENVIRONMENT, SCHEMA_DEFINITION, false, []);
+        const sut = graphqlPouchSchema(ENVIRONMENT, SCHEMA_DEFINITION, ENABLE_RELAY, CUSTOM_FUNCTIONS);
         const expectedData = helper.json(`${TEST_FIXTURES}/${testName}.json`);
 
         const operationName = null;
         const rootValue = null;
-        const contextValue = {environment:ENVIRONMENT, user: {}};
+        const contextValue = {environment: ENVIRONMENT, user: USER};
         const schemaQuery = helper.read(`${TEST_FIXTURES}/${testName}.graphql`);
         const variableValues = null;
 
