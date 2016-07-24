@@ -1,0 +1,21 @@
+{
+  "data": {
+    "allPosts": [
+      {
+        "id": "test1",
+        "body": "body 1",
+        "title": "title 1"
+      },
+      {
+        "id": "test2",
+        "body": "body 2",
+        "title": "title 2"
+      },
+      {
+        "id": "test3",
+        "body": "body 3",
+        "title": "title 3"
+      }
+    ]
+  }
+}

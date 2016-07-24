@@ -1,0 +1,7 @@
+{
+  post(id: "test2") {
+    id
+    title
+    body
+  }
+}
