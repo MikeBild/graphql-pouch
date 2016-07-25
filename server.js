@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 const logger = require('morgan');
+const _ = require('lodash');
 const GraphQL = require('graphql');
 
 const express = require('express');
@@ -12,9 +13,9 @@ const expressResponseTime = require('response-time');
 const expressJWT = require('express-jwt');
 const expressGraphQL = require('express-graphql');
 
-const Schema = require('./lib/pouch-graphql');
-const PouchDB = require('./lib/pouch-graphql/pouchdb');
-const customFunctions = require('./lib/functions');
+const schema = require('./lib/pouch-graphql');
+const pouch = require('./lib/pouch-graphql/pouchdb');
+const functions = require('./lib/functions');
 
 const envs = {};
 const app = express();
@@ -39,17 +40,27 @@ app.use('/graphql/:name?', checkJWT, (req, res, next) => {
   })(req, res, next);
 });
 app.all('/functions/:name', checkJWT, (req, res, next) => {
+  const docid = req.params.name;
+  if(!docid) return res.sendStatus(404);
+
   const defaultEnvironment = envs['default'];
   if(defaultEnvironment.secret && !req.role === 'admin') return res.sendStatus(401);
 
-  const payload = {
-    input: req.query || req.body,
-    name: req.params.name,
-    user: req.user,
-  };
-
-  customFunctions
-    .exec(payload)
+  const selector = { selector:{docid:docid, doctype:'Function'} };
+  pouch.createPouchDB('default')
+    .find(selector)
+    .then(data => ({
+      id: data._id,
+      content: (data.docs && data.docs[0]) ? data.docs[0].content : undefined
+    }))
+    .then(data => {
+      return functions.exec({
+        input: req.query || req.body,
+        name: req.params.name,
+        user: req.user,
+        implementation: data.content,
+      });
+    })
     .then(data => {
       if(data.message) return res.status(500).send({message: data.message});
       res.set({'X-Response-Log': data.log});
@@ -67,7 +78,7 @@ app.get('/*', checkJWT, (req, res, next) => {
   const docid = path.parse(req.params[0] || 'index.html').name;
   const selector = { selector:{docid:docid, doctype:'Static'} };
 
-  PouchDB.createPouchDB('default')
+  pouch.createPouchDB('default')
     .find(selector)
     .then(data => ({
       id: docid,
@@ -119,10 +130,10 @@ function resolveEnv(name, schemaDef, options, customFunctionNames) {
 
     envs[name] = Object.assign({}, options);
     envs[name].name = name;
-    envs[name].pouchdb = PouchDB.createPouchDB(name);
-    envs[name].sync = PouchDB.sync(envs[name].name, envs[name].couchURL, options.continuous_sync);
+    envs[name].pouchdb = pouch.createPouchDB(name);
+    envs[name].sync = pouch.sync(envs[name].name, envs[name].couchURL, options.continuous_sync);
     envs[name].schemaDef = fs.existsSync(schemaFilePath) ? fs.readFileSync(schemaFilePath).toString() : schemaDef;
-    envs[name].graphql = Schema(envs[name].name, envs[name].schemaDef, options.relay, customFunctionNames);
+    envs[name].graphql = schema(envs[name].name, envs[name].schemaDef, options.relay, customFunctionNames);
   }
   return envs[name];
 }
@@ -137,24 +148,29 @@ function developmentFormatError(error) {
 }
 
 function initEnvs(options){
-  const defaultPouchDB = PouchDB.createPouchDB('default');
-  const defaultPouchDBSync = PouchDB.sync('default', options.couchURL, options.continuous_sync);
+  const defaultPouchDB = pouch.createPouchDB('default');
+  const defaultPouchDBSync = pouch.sync('default', options.couchURL, options.continuous_sync);
 
   return defaultPouchDB
     .find({ selector:{doctype:'Function'} })
-    .then(functionDocs => functionDocs.docs.map(x => x._id))
-    .then(functionNames => {
+    .then(result => result.docs.map(x => [x._id, x.content]))
+    .then(functionDocs => {
+      const implementations = _.fromPairs(functionDocs);
+
       return defaultPouchDB
         .find({ selector:{doctype:'Schema'} })
         .then(schemaDocs => {
-          resolveEnv('default', null, options, functionNames);
+
+          resolveEnv('default', null, options, implementations);
+
           return schemaDocs.docs.map(x => {
             try {
-              return resolveEnv(x._id, x.content, options, functionNames);
+              return resolveEnv(x._id, x.content, options, implementations);
             } catch(error) {
               return {name: x._id, message: error.message};
             }
           });
+
         });
     });
 }

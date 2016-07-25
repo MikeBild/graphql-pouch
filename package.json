@@ -12,7 +12,7 @@
   "bugs": {
     "url": "https://github.com/MikeBild/graphql-pouch/issues"
   },
-  "main": "server.js",
+  "main": "index.js",
   "bin": {
     "graphql-pouch": "bin/graphql-pouch"
   },

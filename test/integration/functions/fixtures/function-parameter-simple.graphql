@@ -1,0 +1,5 @@
+{
+  doSomethingFor(id: "param1") {
+    msg
+  }
+}
