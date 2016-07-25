@@ -2,7 +2,7 @@
 
 People may want to use GraphQL-Pouch as a library of their own NodeJS projects. GraphQL-Pouch supports this functionality.
 
-To use GraphQL-Pouch as a library just do or fork [graphql-pouch-as-library](https://github.com/MikeBild/graphql-pouch-as-library):
+To use GraphQL-Pouch as a library fork [graphql-pouch-as-library](https://github.com/MikeBild/graphql-pouch-as-library) or just do:
 
 ```javascript
 const SERVICE_PORT = process.env.SERVICE_PORT || 3000;
