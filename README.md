@@ -67,7 +67,7 @@ GraphQL-Pouch uses the joint benefits of PouchDB and GraphQL to provide a number
 * Fully documented API and [GraphiQL-UI](https://github.com/graphql/graphiql) for development
 * Serves multiple GraphQL schemas
 * [Using GraphQL-Pouch as a library](doc/library.md)
-* Completely self contained with optional [CouchDB Master/Master Replication](doc/replication.md)
+* [Completely self contained with Master/Master Replication](doc/replication.md)
 * Supports relationships, types, comments, pagination, and more providing by GraphQL, PouchDB and CouchDB
 * Serving static files for e.g. React-Application hosting
 
