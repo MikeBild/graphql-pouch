@@ -39,16 +39,17 @@
     "express": "^4.14.0",
     "express-graphql": "^0.5.3",
     "express-jwt": "^3.4.0",
+    "graphql": "^0.6.1",
     "graphql-relay": "^0.4.2",
     "jsonwebtoken": "^7.1.6",
     "lodash": "^4.13.1",
     "morgan": "^1.7.0",
+    "node-fetch": "^1.5.3",
     "node-uuid": "^1.4.7",
     "pouchdb": "^5.4.5",
     "pouchdb-find": "^0.10.2",
     "response-time": "^2.3.1",
-    "serve-favicon": "^2.3.0",
-    "graphql": "^0.6.1"
+    "serve-favicon": "^2.3.0"
   },
   "devDependencies": {
     "eslint": "^3.1.1",
@@ -63,10 +64,24 @@
       "node": true
     },
     "rules": {
-      "semi": ["error", "always"],
-      "comma-dangle": ["off"],
-      "space-before-function-paren":["off"],
-      "quotes": ["off", "single", {"avoidEscape": true, "allowTemplateLiterals": true}]
+      "semi": [
+        "error",
+        "always"
+      ],
+      "comma-dangle": [
+        "off"
+      ],
+      "space-before-function-paren": [
+        "off"
+      ],
+      "quotes": [
+        "off",
+        "single",
+        {
+          "avoidEscape": true,
+          "allowTemplateLiterals": true
+        }
+      ]
     },
     "extends": "default"
   }
