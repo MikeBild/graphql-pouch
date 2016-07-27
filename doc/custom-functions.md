@@ -1,6 +1,16 @@
 # Custom Query and Mutation functions
 
-Sometimes it's necessary to extend GraphQL-Pouch's base functionality with your own project specific implementations. There are two different depth levels to enhance GraphQL-Pouch to replace existing or define new queries and mutations.
+Sometimes it's necessary to extend GraphQL-Pouch's base functionality with your own project specific implementations. Use custom function for:
+
+* Fetch data from third-party data source e.g. RESTful services, Databases, etc.
+* Mutation query Input-Validation
+* Data query filters/ordering
+* Data query transformations e.g. cleansing or enhancements
+* Forwarding mutation commands to your Backends
+* Business logic implementations
+* etc.
+
+There are two different depth levels to enhance GraphQL-Pouch to replace existing or define new queries and mutations.
 
 * [Register custom functions via CLI](#register-custom-functions-via-cli)
 * [Use GraphQL-Pouch as a NPM-Module](npm-module.md)

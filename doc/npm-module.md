@@ -1,6 +1,15 @@
 # Using GraphQL-Pouch as a NPM-Module
 
-Some people may want to use GraphQL-Pouch as a NPM-Module in their own NodeJS projects. GraphQL-Pouch supports this functionality for instance using third-party NPM-Modules in [custom functions](custom-functions.md).
+Some people may want to use GraphQL-Pouch as a NPM-Module in their own NodeJS projects. GraphQL-Pouch supports this depth level integration in your own projects to do something like this:
+
+* Use any other NPM-Module in your implementations
+* Fetch data from third-party data source e.g. RESTful services, Databases, etc.
+* Mutation query Input-Validation
+* Data query filters/ordering
+* Data query transformations e.g. cleansing or enhancements
+* Forwarding mutation commands to your Backends
+* Business logic implementations
+* etc.
 
 As example How to use GraphQL-Pouch as a module fork [graphql-pouch-as-module](https://github.com/MikeBild/graphql-pouch-as-library) or just do:
 
