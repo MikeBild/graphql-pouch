@@ -1,4 +1,4 @@
-# Custom JavaScript functions
+# Custom Query and Mutation functions
 
 Sometimes it's necessary to extend GraphQL-Pouch's base functionality with your own project specific implementations. There are two different depth levels to enhance GraphQL-Pouch:  Replace existing or define new queries and mutations.
 
