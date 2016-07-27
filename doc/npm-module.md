@@ -2,7 +2,7 @@
 
 Some people may want to use GraphQL-Pouch as a NPM-Module in their own NodeJS projects. GraphQL-Pouch supports this functionality for instance using third-party NPM-Modules in [custom functions](custom-functions.md).
 
-As example How to use GraphQL-Pouch as a library fork [graphql-pouch-as-library](https://github.com/MikeBild/graphql-pouch-as-library) or just do:
+As example How to use GraphQL-Pouch as a module fork [graphql-pouch-as-module](https://github.com/MikeBild/graphql-pouch-as-library) or just do:
 
 ```javascript
 const SERVICE_PORT = process.env.SERVICE_PORT || 3000;
