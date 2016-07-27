@@ -23,7 +23,7 @@ const CUSTOM_FUNCTIONS = {
 };
 
 // My own schema definition
-const SCHEMA_DEFINITION = `
+const MY_SCHEMA_DEFINITION = `
 #A simple Type for demonstration.
 type Setting implements Node {
   id: ID!
@@ -44,7 +44,7 @@ const expressGraphQL = require('express-graphql');
 const graphqlPouch = require('graphql-pouch');
 
 //GraphQL schema generation
-const defaultSchema = graphqlPouch.schema(ENVIRONMENT, SCHEMA_DEFINITION, ENABLE_RELAY, CUSTOM_FUNCTIONS);
+const mySchema = graphqlPouch.schema(ENVIRONMENT, MY_SCHEMA_DEFINITION, ENABLE_RELAY, CUSTOM_FUNCTIONS);
 
 const app = express();
 app.disable('x-powered-by');
@@ -53,7 +53,7 @@ app.use(expressMorgan('dev'));
 app.use(expressBodyParser.json());
 
 app.use('/graphql', expressGraphQL({
-  schema: defaultSchema.schema,
+  schema: mySchema.schema,
   context: {environment: 'default'},
   pretty: true,
   graphiql: true,
