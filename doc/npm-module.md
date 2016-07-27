@@ -6,10 +6,10 @@ As example How to use GraphQL-Pouch as a module fork [graphql-pouch-as-module](h
 
 ```javascript
 const SERVICE_PORT = process.env.SERVICE_PORT || 3000;
-const ENVIRONMENT = 'default';
+const ENVIRONMENT = 'mygraphql';
 const ENABLE_RELAY = true;
 
-// Object-Literal for custom functions
+// Object-Literal for custom function implementations
 const CUSTOM_FUNCTIONS = {
   settingByKey: (ctx, input) => {
     //Fake output result to demonstrate custom functions.
@@ -37,20 +37,18 @@ type Query {
 }
 `;
 const express = require('express');
-const expressMorgan = require('morgan');
 const expressCors = require('cors');
-const expressBodyParser = require('body-parser');
 const expressGraphQL = require('express-graphql');
+
+//Include GraphQL-Pouch `npm install graphql-pouch --save`
 const graphqlPouch = require('graphql-pouch');
 
-//GraphQL schema generation
+//GraphQL-Pouch schema generation from shorthand notation
 const mySchema = graphqlPouch.schema(ENVIRONMENT, MY_SCHEMA_DEFINITION, ENABLE_RELAY, CUSTOM_FUNCTIONS);
 
 const app = express();
 app.disable('x-powered-by');
 app.use(expressCors());
-app.use(expressMorgan('dev'));
-app.use(expressBodyParser.json());
 
 app.use('/graphql', expressGraphQL({
   schema: mySchema.schema,
