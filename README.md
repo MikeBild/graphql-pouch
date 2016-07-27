@@ -66,7 +66,7 @@ GraphQL-Pouch uses the joint benefits of PouchDB and GraphQL to provide a number
 * [Custom GraphQL-Queries and Mutations](doc/custom-functions.md) via JavaScript functions
 * Fully documented API and [GraphiQL-UI](https://github.com/graphql/graphiql) for development
 * [Serves multiple GraphQL schemas](doc/multi-graphql.md)
-* [Using GraphQL-Pouch as a library](doc/library.md)
+* [Using GraphQL-Pouch as a NPM-Module](doc/npm-module.md)
 * [Completely self contained with Master/Master Replication](doc/replication.md)
 * Supports relationships, types, comments, pagination, and more providing by GraphQL, PouchDB and CouchDB
 * Serves static files for e.g. React-Application hosting

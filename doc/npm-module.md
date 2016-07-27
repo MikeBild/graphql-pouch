@@ -1,13 +1,15 @@
-# Using GraphQL-Pouch as a Library
+# Using GraphQL-Pouch as a NPM-Module
 
-People may want to use GraphQL-Pouch as a library of their own NodeJS projects. GraphQL-Pouch supports this functionality.
+Some people may want to use GraphQL-Pouch as a NPM-Module in their own NodeJS projects. GraphQL-Pouch supports this functionality for instance using third-party NPM-Modules in [custom functions](custom-functions.md).
 
-To use GraphQL-Pouch as a library fork [graphql-pouch-as-library](https://github.com/MikeBild/graphql-pouch-as-library) or just do:
+As example How to use GraphQL-Pouch as a library fork [graphql-pouch-as-library](https://github.com/MikeBild/graphql-pouch-as-library) or just do:
 
 ```javascript
 const SERVICE_PORT = process.env.SERVICE_PORT || 3000;
 const ENVIRONMENT = 'default';
 const ENABLE_RELAY = true;
+
+// Object-Literal for custom functions
 const CUSTOM_FUNCTIONS = {
   settingByKey: (ctx, input) => {
     //Fake output result to demonstrate custom functions.
@@ -19,6 +21,8 @@ const CUSTOM_FUNCTIONS = {
 
   }
 };
+
+// My own schema definition
 const SCHEMA_DEFINITION = `
 #A simple Type for demonstration.
 type Setting implements Node {
@@ -28,7 +32,7 @@ type Setting implements Node {
 }
 
 type Query {
-  #A custom function implementation
+  #A custom function registration
   settingByKey(key: String!): Setting
 }
 `;
@@ -38,6 +42,8 @@ const expressCors = require('cors');
 const expressBodyParser = require('body-parser');
 const expressGraphQL = require('express-graphql');
 const graphqlPouch = require('graphql-pouch');
+
+//GraphQL schema generation
 const defaultSchema = graphqlPouch.schema(ENVIRONMENT, SCHEMA_DEFINITION, ENABLE_RELAY, CUSTOM_FUNCTIONS);
 
 const app = express();
