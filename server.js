@@ -75,9 +75,8 @@ app.get('/*', checkJWT, (req, res, next) => {
   const defaultEnvironment = envs['default'];
   if(defaultEnvironment.secret && !req.role === 'admin') return res.sendStatus(401);
 
-  const docid = path.parse(req.params[0] || 'index.html').name;
+  const docid = req.params[0] || 'index.html';
   const selector = { selector:{docid:docid, doctype:'Static'} };
-
   pouch.createPouchDB('default')
     .find(selector)
     .then(data => ({
