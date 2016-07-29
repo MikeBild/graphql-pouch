@@ -28,8 +28,10 @@ app.use(expressFavicon(path.join(__dirname, 'favicon.ico')));
 app.use('/graphql/:name?', checkJWT, (req, res, next) => {
   let schemaName = req.params.name || 'default';
   let environment = envs[schemaName];
-  if(environment.secret && !req.role === 'admin') return res.sendStatus(401);
   if(!environment || !environment.graphql) return res.status(404).send({message: 'Not found'});
+
+  const defaultEnvironment = envs['default'];
+  if(defaultEnvironment.secret && !req.role === 'admin') return res.sendStatus(401);
 
   return expressGraphQL({
     schema: environment.graphql.schema,
