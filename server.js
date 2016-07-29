@@ -73,7 +73,7 @@ app.all('/functions/:name', checkJWT, (req, res, next) => {
       res.status(500).send({message: error.message});
     });
 });
-app.get('/*', checkJWT, (req, res, next) => {
+app.get('/*', (req, res, next) => {
   const defaultEnvironment = envs['default'];
   if(defaultEnvironment.secret && !req.role === 'admin') return res.sendStatus(401);
 
@@ -106,7 +106,9 @@ module.exports = {
           console.log(`Schema ${x.name} initialized`);
           if(options.development) return console.log(`Schema ${x.name} running - http://127.0.0.1:${options.port}/graphql/${x.name}`);
         });
-      });
+      })
+      .catch(error => console.log(error))
+
     return {
       default: () => resolveEnv('default', null, options),
       start: () => {
@@ -125,16 +127,21 @@ JWT-Authentication: ${options.secret ? true : false}`)
   }
 };
 
-function resolveEnv(name, schemaDef, options, customFunctionNames) {
+function resolveEnv(name, schemaDef, options, implementations) {
   if(!envs[name]) {
     const schemaFilePath = path.join(__dirname, name+'.graphql');
 
     envs[name] = Object.assign({}, options);
     envs[name].name = name;
     envs[name].pouchdb = pouch.createPouchDB(name);
-    envs[name].sync = pouch.sync(envs[name].name, envs[name].couchURL, options.continuous_sync);
     envs[name].schemaDef = fs.existsSync(schemaFilePath) ? fs.readFileSync(schemaFilePath).toString() : schemaDef;
-    envs[name].graphql = schema(envs[name].name, envs[name].schemaDef, options.relay, customFunctionNames);
+    envs[name].graphql = schema(envs[name].name, envs[name].schemaDef, options.relay, implementations);
+    envs[name].sync = pouch.sync(envs[name].name, envs[name].couchURL, options.continuous_sync, info => {
+      if(name === 'default') {
+        console.log('Schema update - reinit environments');
+        initEnvs(options);
+      }
+    });
   }
   return envs[name];
 }
@@ -150,7 +157,6 @@ function developmentFormatError(error) {
 
 function initEnvs(options){
   const defaultPouchDB = pouch.createPouchDB('default');
-  const defaultPouchDBSync = pouch.sync('default', options.couchURL, options.continuous_sync);
 
   return defaultPouchDB
     .find({ selector:{doctype:'Function'} })
@@ -161,13 +167,12 @@ function initEnvs(options){
       return defaultPouchDB
         .find({ selector:{doctype:'Schema'} })
         .then(schemaDocs => {
-
           resolveEnv('default', null, options, implementations);
-
           return schemaDocs.docs.map(x => {
             try {
               return resolveEnv(x._id, x.content, options, implementations);
             } catch(error) {
+              console.error(error)
               return {name: x._id, message: error.message};
             }
           });

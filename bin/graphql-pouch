@@ -56,7 +56,7 @@ function migrateSchemaFile(args){
 
       return pouchdb.put(doc);
     })
-    .catch(error => console.dir(error.message));
+    .catch(error => console.error(error.message));
 }
 
 function migrateStaticFile(args){
@@ -78,7 +78,7 @@ function migrateStaticFile(args){
 
       return pouchdb.put(doc);
     })
-    .catch(error => console.dir(error.message));
+    .catch(error => console.error(error.message));
 }
 
 function migrateFunctionFile(args){
@@ -100,7 +100,7 @@ function migrateFunctionFile(args){
 
       return pouchdb.put(doc);
     })
-    .catch(error => console.dir(error.message));
+    .catch(error => console.error(error.message));
 }
 
 function jwtSignSecret(args){
