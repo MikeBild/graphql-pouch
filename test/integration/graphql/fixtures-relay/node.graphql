@@ -1,0 +1,11 @@
+{
+  a: node(id: "test1"){
+    id
+    ... on Post {
+      id
+      personId
+      title
+      body
+    }
+  }
+}

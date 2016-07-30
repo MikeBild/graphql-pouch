@@ -51,7 +51,7 @@ const CUSTOM_FUNCTIONS = {
   },
 };
 const SCHEMA_DEFINITION = `
-type MyData {
+type MyData implements Node {
   id: ID!
   msg: String
 }

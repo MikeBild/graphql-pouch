@@ -12,29 +12,29 @@ const TEST_FIXTURES = 'test/integration/graphql/fixtures-relay';
 const ENABLE_RELAY = true;
 const CUSTOM_FUNCTIONS = [];
 const SCHEMA_DEFINITION = `
-type Post {
-  id: ID
+type Post implements Node {
+  id: ID!
   rev: String
   personId: ID
   title: String
   body: String
 }
 
-type Comment {
-  id: ID
+type Comment implements Node {
+  id: ID!
   rev: String
   personId: ID
   title: String
 }
 
-type Person {
-  id: ID
+type Person implements Node {
+  id: ID!
   rev: String
   name: String
 }
 
-type Tag {
-  id: ID
+type Tag implements Node {
+  id: ID!
   value: String
 }
 `;
