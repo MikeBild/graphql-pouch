@@ -1,0 +1,21 @@
+{
+  a: viewer {
+    id
+  }
+  b: viewer {
+    allPosts {
+      pageInfo {
+        startCursor
+        endCursor
+        hasNextPage
+        hasPreviousPage
+      }
+      edges {
+        cursor
+        node {
+          id
+        }
+      }
+    }
+  }
+}

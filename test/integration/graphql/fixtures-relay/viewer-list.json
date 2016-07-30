@@ -1,0 +1,41 @@
+{
+  "data": {
+    "a": {
+      "id": "viewer"
+    },
+    "b": {
+      "allPosts": {
+        "pageInfo": {
+          "endCursor": "4",
+          "hasNextPage": true,
+          "hasPreviousPage": false,
+          "startCursor": "1"
+        },
+        "edges": [{
+            "cursor": "1",
+            "node": {
+              "id": "test1"
+            }
+          },{
+            "cursor": "2",
+            "node": {
+              "id": "test103"
+            }
+          },{
+            "cursor": "3",
+            "node": {
+              "id": "test104"
+            }
+          },{
+            "cursor": "4",
+            "node": {
+              "id": "test3"
+            }
+          }
+        ]
+      }
+    }
+  }
+}
+
+
