@@ -1,36 +1,36 @@
 {
   "data": {
     "a": {
-      "upsertedMyDataId": "test1",
-      "mydata": {
+      "upsertedFooId": "test1",
+      "foo": {
         "id": "test1",
-        "msg": "A"
+        "msg": "B"
       },
-      "mydataEdge": {
+      "fooEdge": {
         "cursor": "0",
         "node": {
           "id": "test1",
-          "msg": "A"
+          "msg": "B"
         }
       }
     },
     "b": {
-      "upsertedMyDataId": "test2",
+      "upsertedFooId": "test2",
       "clientMutationId": "foo",
-      "mydata": {
+      "foo": {
         "id": "test2",
-        "msg": "A"
+        "msg": "B"
       },
-      "mydataEdge": {
+      "fooEdge": {
         "cursor": "0",
         "node": {
           "id": "test2",
-          "msg": "A"
+          "msg": "B"
         }
       },
       "viewer": {
         "id": "viewer",
-        "allMyDatas": {
+        "allFoos": {
           "edges": []
         }
       }

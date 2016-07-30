@@ -1,11 +1,11 @@
 mutation Upsert {
-  a: upsertMyData(input: {id: "test1"}) {
-    upsertedMyDataId
-    mydata {
+  a: upsertFoo(input: {id: "test1", msg: "B"}) {
+    upsertedFooId
+    foo {
       id
       msg
     }
-    mydataEdge {
+    fooEdge {
     cursor
       node {
         id
@@ -13,14 +13,14 @@ mutation Upsert {
       }
     }
   }
-  b: upsertMyData(input: {id: "test2", clientMutationId: "foo"}) {
-    upsertedMyDataId
+  b: upsertFoo(input: {id: "test2", clientMutationId: "foo", msg: "B"}) {
+    upsertedFooId
     clientMutationId
-    mydata {
+    foo {
       id
       msg
     }
-    mydataEdge {
+    fooEdge {
     cursor
       node {
         id
@@ -29,7 +29,7 @@ mutation Upsert {
     }
     viewer {
       id
-      allMyDatas {
+      allFoos {
         edges {
           cursor
           node {

@@ -3,6 +3,7 @@ const path = require('path');
 const assert = require('assert');
 
 const helper = require('../../helper');
+const pouch = require('../../../lib/pouch-graphql/pouchdb');
 const graphqlPouch = require('../../../lib/pouch-graphql');
 
 const ENVIRONMENT = 'function-tests';
@@ -55,11 +56,16 @@ type Query {
 `;
 
 describe('Custom functions integration (no-relay)', function() {
+  const db = pouch.createPouchDB(ENVIRONMENT);
+  const sut = graphqlPouch(ENVIRONMENT, SCHEMA_DEFINITION, ENABLE_RELAY, CUSTOM_FUNCTIONS);
+  /*
+    Also note that in Web SQL, the database will not really be destroyed – it will just have its tables dropped.
+    This is because Web SQL does not support true database deletion.
+  */
+  after(() => db.destroy());
 
   it('simple', () => {
-    const sut = graphqlPouch(ENVIRONMENT, SCHEMA_DEFINITION, ENABLE_RELAY, CUSTOM_FUNCTIONS);
     const expectedData = helper.json(`${TEST_FIXTURES}/function-simple.json`);
-
     const operationName = null;
     const rootValue = null;
     const contextValue = {environment: ENVIRONMENT, user: USER};
@@ -72,9 +78,7 @@ describe('Custom functions integration (no-relay)', function() {
   });
 
   it('simple input parameter', () => {
-    const sut = graphqlPouch(ENVIRONMENT, SCHEMA_DEFINITION, ENABLE_RELAY, CUSTOM_FUNCTIONS);
     const expectedData = helper.json(`${TEST_FIXTURES}/function-parameter-simple.json`);
-
     const operationName = null;
     const rootValue = null;
     const contextValue = {environment: ENVIRONMENT, user: USER};
@@ -87,9 +91,7 @@ describe('Custom functions integration (no-relay)', function() {
   });
 
   it('complex input parameter', () => {
-    const sut = graphqlPouch(ENVIRONMENT, SCHEMA_DEFINITION, ENABLE_RELAY, CUSTOM_FUNCTIONS);
     const expectedData = helper.json(`${TEST_FIXTURES}/function-parameter-complex.json`);
-
     const operationName = null;
     const rootValue = null;
     const contextValue = {environment: ENVIRONMENT, user: USER};
@@ -102,9 +104,7 @@ describe('Custom functions integration (no-relay)', function() {
   });
 
   it('complex input parameter as variable values', () => {
-    const sut = graphqlPouch(ENVIRONMENT, SCHEMA_DEFINITION, ENABLE_RELAY, CUSTOM_FUNCTIONS);
     const expectedData = helper.json(`${TEST_FIXTURES}/function-parameter-complex-variable.json`);
-
     const operationName = null;
     const rootValue = null;
     const contextValue = {environment: ENVIRONMENT, user: USER};
@@ -121,9 +121,7 @@ describe('Custom functions integration (no-relay)', function() {
   });
 
   it('override all query', () => {
-    const sut = graphqlPouch(ENVIRONMENT, SCHEMA_DEFINITION, ENABLE_RELAY, CUSTOM_FUNCTIONS);
     const expectedData = helper.json(`${TEST_FIXTURES}/function-all-override.json`);
-
     const operationName = null;
     const rootValue = null;
     const contextValue = {environment: ENVIRONMENT, user: USER};
@@ -136,9 +134,7 @@ describe('Custom functions integration (no-relay)', function() {
   });
 
   it('override upsert mutation', () => {
-    const sut = graphqlPouch(ENVIRONMENT, SCHEMA_DEFINITION, ENABLE_RELAY, CUSTOM_FUNCTIONS);
     const expectedData = helper.json(`${TEST_FIXTURES}/function-upsert-override.json`);
-
     const operationName = null;
     const rootValue = null;
     const contextValue = {environment: ENVIRONMENT, user: USER};

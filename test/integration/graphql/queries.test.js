@@ -41,6 +41,7 @@ type Tag {
 
 describe('GraphQL query integration (no-relay)', () => {
   const db = pouch.createPouchDB(ENVIRONMENT);
+  const sut = graphqlPouch(ENVIRONMENT, SCHEMA_DEFINITION, ENABLE_RELAY, CUSTOM_FUNCTIONS);
 
   before(() => {
     const post1 = {
@@ -69,22 +70,18 @@ describe('GraphQL query integration (no-relay)', () => {
     ]);
   });
 
-  after(() => {
-    /*
-      Also note that in Web SQL, the database will not really be destroyed – it will just have its tables dropped.
-      This is because Web SQL does not support true database deletion.
-    */
-    return db.destroy();
-  });
+  /*
+    Also note that in Web SQL, the database will not really be destroyed – it will just have its tables dropped.
+    This is because Web SQL does not support true database deletion.
+  */
+  after(() => db.destroy());
 
   fs.readdirSync(TEST_FIXTURES).forEach(fileName => {
     if(path.extname(fileName) === '.graphql') {
       const testName = path.basename(fileName, '.graphql');
 
       it(`GraphQL query ${testName}`, () => {
-        const sut = graphqlPouch(ENVIRONMENT, SCHEMA_DEFINITION, ENABLE_RELAY, CUSTOM_FUNCTIONS);
         const expectedData = helper.json(`${TEST_FIXTURES}/${testName}.json`);
-
         const operationName = null;
         const rootValue = null;
         const contextValue = {environment: ENVIRONMENT, user: USER};
