@@ -1,12 +1,13 @@
 {
   "data": {
     "a": {
-      "deletedPostId": "test3",
+      "deletedPostId": "test2",
+      "clientMutationId": "foobar",
       "post": {
-        "body": "body 3",
-        "id": "test3",
+        "body": "body 2",
+        "id": "test2",
         "personId": "joe",
-        "title": "title 3"
+        "title": "title 2"
       }
     }
   }

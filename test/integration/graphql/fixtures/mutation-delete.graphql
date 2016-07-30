@@ -1,10 +1,9 @@
 mutation Delete {
-  a: deletePost(input: {id: "test2", clientMutationId: "foobar"}) { ...payloadPost }
+  a: deletePost(id: "test3") { ...payloadPost }
 }
 
 fragment payloadPost on DeletePostPayload {
   deletedPostId
-  clientMutationId
   post {
     id
     personId

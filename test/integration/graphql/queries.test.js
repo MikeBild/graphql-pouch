@@ -49,18 +49,21 @@ describe('GraphQL query integration (no-relay)', () => {
       _id: 'test1',
       title: 'title 1',
       body: 'body 1',
+      personId: 'joe',
     };
     const post2 = {
       doctype: 'Post',
       _id: 'test2',
       title: 'title 2',
       body: 'body 2',
+      personId: 'joe',
     };
     const post3 = {
       doctype: 'Post',
       _id: 'test3',
       title: 'title 3',
       body: 'body 3',
+      personId: 'joe',
     };
 
     return db.bulkDocs([
