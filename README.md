@@ -1,5 +1,7 @@
 # GraphQL-API runtime on top of PouchDB
 
+[![Build Status](https://travis-ci.org/MikeBild/graphql-pouch.svg?branch=master)](https://travis-ci.org/MikeBild/graphql-pouch)
+
 *A GraphQL-API runtime on top of PouchDB created by GraphQL shorthand notation as a self contained service with CouchDB synchonisation.*
 
 __Objectives - evaluating for your project__

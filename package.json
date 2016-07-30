@@ -20,7 +20,7 @@
     "start": "./bin/graphql-pouch",
     "test": "./node_modules/.bin/mocha -c -b --recursive ./test",
     "dev": "./node_modules/.bin/grunt",
-    "lint": "./node_modules/.bin/eslint ./**/*.js"
+    "lint": "./node_modules/.bin/eslint --quiet lib bin test || true"
   },
   "keywords": [
     "graphql",
