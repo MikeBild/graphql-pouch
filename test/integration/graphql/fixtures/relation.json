@@ -1,0 +1,56 @@
+{
+  "data": {
+    "allPosts": [
+      {
+        "id": "test1",
+        "body": "body 1",
+        "title": "title 1",
+        "personId": "joe",
+        "person": {
+          "id": "joe",
+          "name": "John Doe"
+        }
+      },
+      {
+        "id": "test101",
+        "body": null,
+        "title": "title 1",
+        "personId": "joe",
+        "person": {
+          "id": "joe",
+          "name": "John Doe"
+        }
+      },
+      {
+        "id": "test102",
+        "body": "body 2",
+        "title": "title 2",
+        "personId": "joe",
+        "person": {
+          "id": "joe",
+          "name": "John Doe"
+        }
+      },
+      {
+        "id": "test2",
+        "title": "title 2",
+        "body": "body 2",
+        "personId": "joe",
+        "person": {
+            "id": "joe",
+            "name": "John Doe"
+        }
+      },
+      {
+        "id": "test4",
+        "body": "body 4",
+        "title": "title 4",
+        "personId": "jay",
+        "person": {
+          "id": "jay",
+          "name": "Jane Doe"
+        }
+      }
+    ]
+  }
+}

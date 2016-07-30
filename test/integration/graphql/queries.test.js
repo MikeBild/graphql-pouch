@@ -18,13 +18,17 @@ type Post {
   personId: ID
   title: String
   body: String
+  person: Person
 }
 
 type Comment {
   id: ID
   rev: String
   personId: ID
+  postId: ID
   title: String
+  person: Person
+  post: Post
 }
 
 type Person {
@@ -65,11 +69,31 @@ describe('GraphQL query integration (no-relay)', () => {
       body: 'body 3',
       personId: 'joe',
     };
+    const post4 = {
+      doctype: 'Post',
+      _id: 'test4',
+      title: 'title 4',
+      body: 'body 4',
+      personId: 'jay',
+    };
+    const personJoe = {
+      doctype: 'Person',
+      _id: 'joe',
+      name: 'John Doe',
+    };
+    const personJay = {
+      doctype: 'Person',
+      _id: 'jay',
+      name: 'Jane Doe',
+    };
 
     return db.bulkDocs([
       post1,
       post2,
       post3,
+      post4,
+      personJoe,
+      personJay,
     ]);
   });
 

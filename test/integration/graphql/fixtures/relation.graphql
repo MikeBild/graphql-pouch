@@ -1,0 +1,12 @@
+{
+  allPosts {
+    id
+    title
+    body
+    personId
+    person {
+      id
+      name
+    }
+  }
+}
