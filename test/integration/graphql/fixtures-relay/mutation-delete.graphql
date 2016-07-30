@@ -1,0 +1,13 @@
+mutation Delete {
+  a: deletePost(input: {id: "test3"}) { ...payloadPost }
+}
+
+fragment payloadPost on DeletePostPayload {
+  deletedPostId
+  post {
+    id
+    personId
+    title
+    body
+  }
+}
