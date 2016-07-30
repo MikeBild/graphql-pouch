@@ -1,0 +1,11 @@
+{
+  "data": {
+    "upsertMyData": {
+      "upsertedMyDataId": "test1",
+      "mydata": {
+        "id": "test1",
+        "msg": "A"
+      }
+    }
+  }
+}

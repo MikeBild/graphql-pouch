@@ -25,9 +25,21 @@ const CUSTOM_FUNCTIONS = {
       msg: `A${input.input.aParam}`
     });
   },
+  allMyDatas: (ctx, input) => {
+    ctx.success([{
+      msg: `A`
+    }]);
+  },
+  upsertMyData: (ctx, input) => {
+    ctx.success({
+      id: input.input.id,
+      msg: `A`,
+    });
+  },
 };
 const SCHEMA_DEFINITION = `
 type MyData {
+  id: ID!
   msg: String
 }
 
@@ -42,7 +54,7 @@ type Query {
 }
 `;
 
-describe('Custom functions integration', function() {
+describe('Custom functions integration (no-relay)', function() {
 
   it('simple', () => {
     const sut = graphqlPouch(ENVIRONMENT, SCHEMA_DEFINITION, ENABLE_RELAY, CUSTOM_FUNCTIONS);
@@ -102,6 +114,36 @@ describe('Custom functions integration', function() {
         "aParam": "Bar"
       }
     };
+
+    return sut
+      .query(schemaQuery, variableValues, rootValue, contextValue, operationName)
+      .then(result => assert.deepEqual(result, expectedData));
+  });
+
+  it('override all query', () => {
+    const sut = graphqlPouch(ENVIRONMENT, SCHEMA_DEFINITION, ENABLE_RELAY, CUSTOM_FUNCTIONS);
+    const expectedData = helper.json(`${TEST_FIXTURES}/function-all-override.json`);
+
+    const operationName = null;
+    const rootValue = null;
+    const contextValue = {environment: ENVIRONMENT, user: USER};
+    const schemaQuery = helper.read(`${TEST_FIXTURES}/function-all-override.graphql`);
+    const variableValues = null;
+
+    return sut
+      .query(schemaQuery, variableValues, rootValue, contextValue, operationName)
+      .then(result => assert.deepEqual(result, expectedData));
+  });
+
+  it('override upsert mutation', () => {
+    const sut = graphqlPouch(ENVIRONMENT, SCHEMA_DEFINITION, ENABLE_RELAY, CUSTOM_FUNCTIONS);
+    const expectedData = helper.json(`${TEST_FIXTURES}/function-upsert-override.json`);
+
+    const operationName = null;
+    const rootValue = null;
+    const contextValue = {environment: ENVIRONMENT, user: USER};
+    const schemaQuery = helper.read(`${TEST_FIXTURES}/function-upsert-override.graphql`);
+    const variableValues = null;
 
     return sut
       .query(schemaQuery, variableValues, rootValue, contextValue, operationName)

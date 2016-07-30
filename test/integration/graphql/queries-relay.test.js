@@ -6,10 +6,10 @@ const helper = require('../../helper');
 const pouch = require('../../../lib/pouch-graphql/pouchdb');
 const graphqlPouch = require('../../../lib/pouch-graphql');
 
-const ENVIRONMENT = 'query-tests';
+const ENVIRONMENT = 'query-relay-tests';
 const USER = {};
-const TEST_FIXTURES = 'test/integration/graphql/fixtures';
-const ENABLE_RELAY = false;
+const TEST_FIXTURES = 'test/integration/graphql/fixtures-relay';
+const ENABLE_RELAY = true;
 const CUSTOM_FUNCTIONS = [];
 const SCHEMA_DEFINITION = `
 type Post {
@@ -39,7 +39,7 @@ type Tag {
 }
 `;
 
-describe('GraphQL query integration (no-relay)', () => {
+describe('GraphQL query integration (relay)', () => {
   const db = pouch.createPouchDB(ENVIRONMENT);
 
   before(() => {

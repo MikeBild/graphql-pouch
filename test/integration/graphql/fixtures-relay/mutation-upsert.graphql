@@ -1,0 +1,14 @@
+mutation Upsert {
+  a: upsertPost(input: { id: "test103", title: "title 3", personId: "joe" }) { ...payloadPost }
+  b: upsertPost(input: { id: "test104", title: "title 4", body: "body 4" personId: "joe" }) { ...payloadPost }
+}
+
+fragment payloadPost on UpsertPostPayload {
+  upsertedPostId
+  post {
+    id
+    personId
+    title
+    body
+  }
+}

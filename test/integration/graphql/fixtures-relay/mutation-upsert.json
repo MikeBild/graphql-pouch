@@ -1,0 +1,22 @@
+{
+  "data": {
+    "a": {
+      "upsertedPostId": "test103",
+      "post": {
+        "body": null,
+        "id": "test103",
+        "personId": "joe",
+        "title": "title 3"
+      }
+    },
+    "b": {
+      "upsertedPostId": "test104",
+      "post": {
+        "body": "body 4",
+        "id": "test104",
+        "personId": "joe",
+        "title": "title 4"
+      }
+    }
+  }
+}

@@ -1,0 +1,9 @@
+mutation Upsert {
+  upsertMyData(input: {id: "test1"}) {
+    upsertedMyDataId
+    mydata {
+      id
+      msg
+    }
+  }
+}
