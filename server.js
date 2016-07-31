@@ -139,7 +139,6 @@ function resolveEnv(name, schemaDef, options, implementations) {
     envs[name].sync = pouch.sync(envs[name].name, envs[name].couchURL, options.continuous_sync, info => {
       if(name === 'default') {
         console.log('Schema update - reinit environments');
-        envs = {};
         initEnvs(options);
       }
     });
@@ -171,6 +170,7 @@ function initEnvs(options){
           resolveEnv('default', null, options, implementations);
           return schemaDocs.docs.map(x => {
             try {
+              delete envs[x._id];
               return resolveEnv(x._id, x.content, options, implementations);
             } catch(error) {
               console.error(error)
