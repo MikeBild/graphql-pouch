@@ -39,10 +39,10 @@
     "express": "^4.14.0",
     "express-graphql": "^0.5.3",
     "express-jwt": "^3.4.0",
-    "graphql": "^0.6.1",
+    "graphql": "^0.6.2",
     "graphql-relay": "^0.4.2",
-    "jsonwebtoken": "^7.1.6",
-    "lodash": "^4.13.1",
+    "jsonwebtoken": "^7.1.7",
+    "lodash": "^4.14.1",
     "morgan": "^1.7.0",
     "node-fetch": "^1.5.3",
     "node-uuid": "^1.4.7",
@@ -52,7 +52,7 @@
     "serve-favicon": "^2.3.0"
   },
   "devDependencies": {
-    "eslint": "^3.1.1",
+    "eslint": "^3.2.0",
     "eslint-config-default": "^0.2.1",
     "eslint-config-defaults": "^9.0.0",
     "grunt": "^1.0.1",
@@ -73,6 +73,9 @@
       ],
       "space-before-function-paren": [
         "off"
+      ],
+      "no-unused-vars": [
+        "error", { "args": "none" }
       ],
       "quotes": [
         "off",

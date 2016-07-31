@@ -13,11 +13,10 @@ const expressResponseTime = require('response-time');
 const expressJWT = require('express-jwt');
 const expressGraphQL = require('express-graphql');
 
-const schema = require('./lib/pouch-graphql');
+const graphqlPouch = require('./lib/pouch-graphql');
 const pouch = require('./lib/pouch-graphql/pouchdb');
 const functions = require('./lib/functions');
 
-let envs = {};
 const app = express();
 app.disable('x-powered-by');
 app.use(expressResponseTime());
@@ -26,11 +25,11 @@ app.use(expressCors());
 app.use(expressFavicon(path.join(__dirname, 'favicon.ico')));
 
 app.use('/graphql/:name?', checkJWT, (req, res, next) => {
-  let schemaName = req.params.name || 'default';
-  let environment = envs[schemaName];
+  const schemaName = req.params.name || 'default';
+  const environment = envsCache[schemaName];
   if(!environment || !environment.graphql) return res.status(404).send({message: 'Not found'});
 
-  const defaultEnvironment = envs['default'];
+  const defaultEnvironment = resolveEnv('default');
   if(defaultEnvironment.secret && !req.role === 'admin') return res.sendStatus(401);
 
   return expressGraphQL({
@@ -45,7 +44,7 @@ app.all('/functions/:name', checkJWT, (req, res, next) => {
   const docid = req.params.name;
   if(!docid) return res.sendStatus(404);
 
-  const defaultEnvironment = envs['default'];
+  const defaultEnvironment = resolveEnv('default');
   if(defaultEnvironment.secret && !req.role === 'admin') return res.sendStatus(401);
 
   const selector = { selector:{docid:docid, doctype:'Function'} };
@@ -74,7 +73,7 @@ app.all('/functions/:name', checkJWT, (req, res, next) => {
     });
 });
 app.get('/*', (req, res, next) => {
-  const defaultEnvironment = envs['default'];
+  const defaultEnvironment = resolveEnv('default');
   if(defaultEnvironment.secret && !req.role === 'admin') return res.sendStatus(401);
 
   const docid = req.params[0] || 'index.html';
@@ -113,7 +112,7 @@ module.exports = {
       default: () => resolveEnv('default', null, options),
       start: () => {
         console.log('\nStarting GraphQL-API runtime ...');
-        let server = app.listen(options.port,
+        const server = app.listen(options.port,
           () => console.log(`Listen on port ${server.address().port}
 CouchDB sync URL: ${options.couchURL || 'none'}
 Relay enabled: ${options.relay || false}
@@ -127,31 +126,33 @@ JWT-Authentication: ${options.secret ? true : false}`)
   }
 };
 
+const envsCache = {};
 function resolveEnv(name, schemaDef, options, implementations) {
-  if(!envs[name]) {
+  if(!envsCache[name]) {
     const schemaFilePath = path.join(__dirname, name+'.graphql');
-
-    envs[name] = Object.assign({}, options);
-    envs[name].name = name;
-    envs[name].pouchdb = pouch.createPouchDB(name);
-    envs[name].schemaDef = fs.existsSync(schemaFilePath) ? fs.readFileSync(schemaFilePath).toString() : schemaDef;
-    envs[name].graphql = schema(envs[name].name, envs[name].schemaDef, options.relay, implementations);
-    envs[name].sync = pouch.sync(envs[name].name, envs[name].couchURL, options.continuous_sync);
+    envsCache[name] = Object.assign({}, options);
+    envsCache[name].name = name;
+    envsCache[name].pouchdb = pouch.createPouchDB(name);
 
     if(name === 'default') {
       // Reinit environments on schema updates
-      envs[name].pouchdb.changes({
+      envsCache[name].pouchdb.changes({
           live: true,
           since: 'now',
         })
         .on('change', info => {
           console.log(`Schema update: Reinit environment ${info.id}`);
-          delete envs[info.id];
+          delete envsCache[info.id];
           initEnvs(options);
+          return;
         });
     }
+
+    envsCache[name].schemaDef = fs.existsSync(schemaFilePath) ? fs.readFileSync(schemaFilePath).toString() : schemaDef;
+    envsCache[name].graphql = graphqlPouch(envsCache[name].name, envsCache[name].schemaDef, envsCache[name].relay, implementations);
+    envsCache[name].sync = pouch.sync(envsCache[name].name, envsCache[name].couchURL, envsCache[name].continuous_sync);
   }
-  return envs[name];
+  return envsCache[name];
 }
 
 function developmentFormatError(error) {

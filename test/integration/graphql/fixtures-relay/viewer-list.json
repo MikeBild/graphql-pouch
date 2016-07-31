@@ -6,7 +6,7 @@
     "b": {
       "allPosts": {
         "pageInfo": {
-          "endCursor": "4",
+          "endCursor": "5",
           "hasNextPage": true,
           "hasPreviousPage": false,
           "startCursor": "1"
@@ -30,6 +30,11 @@
             "cursor": "4",
             "node": {
               "id": "test3"
+            }
+          },{
+            "cursor": "5",
+            "node": {
+              "id": "test4"
             }
           }
         ]
