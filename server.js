@@ -136,12 +136,20 @@ function resolveEnv(name, schemaDef, options, implementations) {
     envs[name].pouchdb = pouch.createPouchDB(name);
     envs[name].schemaDef = fs.existsSync(schemaFilePath) ? fs.readFileSync(schemaFilePath).toString() : schemaDef;
     envs[name].graphql = schema(envs[name].name, envs[name].schemaDef, options.relay, implementations);
-    envs[name].sync = pouch.sync(envs[name].name, envs[name].couchURL, options.continuous_sync, info => {
-      if(name === 'default') {
-        console.log('Schema update - reinit environments');
-        initEnvs(options);
-      }
-    });
+    envs[name].sync = pouch.sync(envs[name].name, envs[name].couchURL, options.continuous_sync);
+
+    if(name === 'default') {
+      // Reinit environments on schema updates
+      envs[name].pouchdb.changes({
+          live: true,
+          since: 'now',
+        })
+        .on('change', info => {
+          console.log(`Schema update: Reinit environment ${info.id}`);
+          delete envs[info.id];
+          initEnvs(options);
+        });
+    }
   }
   return envs[name];
 }
@@ -170,7 +178,6 @@ function initEnvs(options){
           resolveEnv('default', null, options, implementations);
           return schemaDocs.docs.map(x => {
             try {
-              delete envs[x._id];
               return resolveEnv(x._id, x.content, options, implementations);
             } catch(error) {
               console.error(error)
