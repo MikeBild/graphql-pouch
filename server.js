@@ -47,9 +47,8 @@ app.all('/functions/:name', checkJWT, (req, res, next) => {
   const defaultEnvironment = resolveEnv('default');
   if(defaultEnvironment.secret && !req.role === 'admin') return res.sendStatus(401);
 
-  const selector = { selector:{docid:docid, doctype:'Function'} };
   pouch.createPouchDB('default')
-    .find(selector)
+    .find({ selector: {docid:docid, doctype:'Function'} })
     .then(data => ({
       id: data._id,
       content: (data.docs && data.docs[0]) ? data.docs[0].content : undefined
@@ -58,7 +57,7 @@ app.all('/functions/:name', checkJWT, (req, res, next) => {
       return functions.exec({
         input: req.query || req.body,
         name: req.params.name,
-        user: req.user,
+        context: {environment: 'default', user: req.user},
         implementation: data.content,
       });
     })
@@ -77,9 +76,8 @@ app.get('/*', (req, res, next) => {
   if(defaultEnvironment.secret && !req.role === 'admin') return res.sendStatus(401);
 
   const docid = req.params[0] || 'index.html';
-  const selector = { selector:{docid:docid, doctype:'Static'} };
   pouch.createPouchDB('default')
-    .find(selector)
+    .find({ selector: {docid:docid, doctype:'Static'} })
     .then(data => ({
       id: docid,
       content: (data.docs && data.docs[0]) ? data.docs[0].content : undefined
