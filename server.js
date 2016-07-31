@@ -17,7 +17,7 @@ const schema = require('./lib/pouch-graphql');
 const pouch = require('./lib/pouch-graphql/pouchdb');
 const functions = require('./lib/functions');
 
-const envs = {};
+let envs = {};
 const app = express();
 app.disable('x-powered-by');
 app.use(expressResponseTime());
@@ -139,6 +139,7 @@ function resolveEnv(name, schemaDef, options, implementations) {
     envs[name].sync = pouch.sync(envs[name].name, envs[name].couchURL, options.continuous_sync, info => {
       if(name === 'default') {
         console.log('Schema update - reinit environments');
+        envs = {};
         initEnvs(options);
       }
     });
