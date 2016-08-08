@@ -84,6 +84,7 @@ app.get('/*', (req, res, next) => {
     }))
     .then(data => {
       if(!data.content) return res.sendStatus(404);
+      res.type(docid);
       res.send(data.content);
     })
     .catch(error => res.status(500).send({message: error.message}));

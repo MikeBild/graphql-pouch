@@ -4,6 +4,7 @@ module.exports = (grunt) => {
       dev: {
         script: 'bin/graphql-pouch',
         options: {
+          args: ['--development'],
           watch: ['lib', 'test', 'server.js']
         }
       }
