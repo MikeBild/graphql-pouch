@@ -21,7 +21,7 @@ const app = express();
 app.disable('x-powered-by');
 app.use(expressResponseTime());
 app.use(expressBodyParser.json());
-app.use(expressCors(credentials: true));
+app.use(expressCors({credentials: true}));
 app.use(expressFavicon(path.join(__dirname, 'favicon.ico')));
 
 app.use('/graphql/:name?', checkJWT, (req, res, next) => {
