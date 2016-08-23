@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/MikeBild/graphql-pouch.svg?branch=master)](https://travis-ci.org/MikeBild/graphql-pouch)
 [![Package on npm](https://img.shields.io/npm/v/graphql-pouch.svg?style=flat)](https://www.npmjs.com/package/graphql-pouch)
 
-*A GraphQL-API runtime on top of PouchDB created by GraphQL shorthand notation as a self contained service with CouchDB synchronisation.*
+*A GraphQL-API runtime on top of PouchDB created by GraphQL shorthand notation as a self contained service with CouchDB synchronization.*
 
 __Objectives - evaluating for your project__
 
