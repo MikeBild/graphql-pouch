@@ -60,7 +60,7 @@ function migrateSchemaFile(args){
 }
 
 function migrateStaticFile(args){
-  const docid = path.parse(args).name;
+  const docid = path.parse(args).base;
   const contentFilePath = path.resolve(args);
   const content = fs.readFileSync(contentFilePath).toString();
   const pouchdb = graphqlPouch.init({relay: program.relay, couchURL: program.remote, continuous_sync: false}).default().pouchdb;
