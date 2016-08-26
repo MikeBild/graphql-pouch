@@ -75,7 +75,7 @@ app.get('/*', (req, res, next) => {
   const defaultEnvironment = resolveEnv('default');
   if(defaultEnvironment.secret && !req.role === 'admin') return res.sendStatus(401);
 
-  const docid = req.params[0] || 'index.html';
+  const docid = path.parse(req.params['0']).base || req.params[0] || 'index.html';
   pouch.createPouchDB('default')
     .find({ selector: {docid:docid, doctype:'Static'} })
     .then(data => ({
