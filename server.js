@@ -40,42 +40,34 @@ app.use('/graphql/:name?', checkJWT, (req, res, next) => {
     formatError: environment.development ? developmentFormatError : GraphQL.formatError,
   })(req, res, next);
 });
-app.all('/functions/:name', checkJWT, (req, res, next) => {
-  const docid = req.params.name;
-  if(!docid) return res.sendStatus(404);
-
-  const defaultEnvironment = resolveEnv('default');
-  if(defaultEnvironment.secret && !req.role === 'admin') return res.sendStatus(401);
+app.all('/*', checkOptionalJWT, (req, res, next) => {
+  const docid = path.parse(req.params['0']).base || req.params[0] || 'index';
 
   pouch.createPouchDB('default')
     .find({ selector: {docid:docid, doctype:'Function'} })
+    .then(data => (!(data && data.docs.length)) ? Promise.reject(next()) : data)
     .then(data => ({
       id: data._id,
       content: (data.docs && data.docs[0]) ? data.docs[0].content : undefined
     }))
-    .then(data => {
-      return functions.exec({
-        input: req.query || req.body,
-        name: req.params.name,
-        context: {environment: 'default', user: req.user},
-        implementation: data.content,
-      });
-    })
+    .then(data => functions.exec({
+      input: Object.assign({}, req.query, req.body),
+      name: req.params.name,
+      context: {environment: 'default', user: req.user, method: req.method, name: req.params.name},
+      implementation: data.content,
+    }))
     .then(data => {
       if(data.message) return res.status(500).send({message: data.message});
       res.set({'X-Response-Log': data.log});
       res.send(data);
     })
     .catch(error => {
+      if(error && error.message && parseInt(error.message)) return res.sendStatus(parseInt(error.message));
       if(error && error.message === 'Not found') return res.status(404).send({message: error.message});
-      res.status(500).send({message: error.message});
     });
-});
-app.get('/*', (req, res, next) => {
-  const defaultEnvironment = resolveEnv('default');
-  if(defaultEnvironment.secret && !req.role === 'admin') return res.sendStatus(401);
-
+}, (req, res, next) => {
   const docid = path.parse(req.params['0']).base || req.params[0] || 'index.html';
+
   pouch.createPouchDB('default')
     .find({ selector: {docid:docid, doctype:'Static'} })
     .then(data => ({
@@ -193,6 +185,14 @@ function checkJWT(req, res, next){
   return expressJWT({
     secret: resolveSecret,
     credentialsRequired: resolveEnv('default').secret ? true : false,
+    getToken: () => getTokenFromHeaderOrQuerystring(req),
+  })(req, res, next);
+}
+
+function checkOptionalJWT(req, res, next){
+  return expressJWT({
+    secret: resolveSecret,
+    credentialsRequired: false,
     getToken: () => getTokenFromHeaderOrQuerystring(req),
   })(req, res, next);
 }
