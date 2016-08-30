@@ -1,0 +1,11 @@
+{
+  allParentDatas {
+    id
+    msg
+    childs {
+      id
+      msg
+      parentId
+    }
+  }
+}

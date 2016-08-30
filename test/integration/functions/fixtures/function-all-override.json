@@ -1,7 +1,7 @@
 {
   "data": {
-    "allMyDatas": [{
-      "msg": "A"
+    "allParentDatas": [{
+      "msg": "Parent A"
     }]
   }
 }

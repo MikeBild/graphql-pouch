@@ -1,8 +1,8 @@
 {
   "data": {
-    "upsertMyData": {
-      "upsertedMyDataId": "test1",
-      "mydata": {
+    "upsertParentData": {
+      "upsertedParentDataId": "test1",
+      "parentData": {
         "id": "test1",
         "msg": "A"
       }

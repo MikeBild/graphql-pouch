@@ -1,0 +1,17 @@
+{
+  "data": {
+    "allParentDatas": [{
+      "id": "1",
+      "msg": "Parent A",
+      "childs": [{
+        "id": "1",
+        "msg": "Child A",
+        "parentId": "1"
+      },{
+        "id": "2",
+        "msg": "Child B",
+        "parentId": "1"
+      }]
+    }]
+  }
+}

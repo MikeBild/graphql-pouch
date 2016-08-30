@@ -1,7 +1,7 @@
 mutation Upsert {
-  upsertMyData(input: {id: "test1"}) {
-    upsertedMyDataId
-    mydata {
+  upsertParentData(input: {id: "test1"}) {
+    upsertedParentDataId
+    parentData {
       id
       msg
     }

@@ -9,37 +9,64 @@ const USER = {};
 const TEST_FIXTURES = 'test/integration/functions/fixtures';
 const ENABLE_RELAY = false;
 const CUSTOM_FUNCTIONS = {
-  doSomething: (ctx, input) => {
+  doSomething: (ctx, args, parent) => {
     ctx.success({
       msg: 'A'
     });
   },
-  doSomethingFor: (ctx, input) => {
+  doSomethingFor: (ctx, args, parent) => {
     ctx.success({
-      msg: `A${input.id}`
+      msg: `A${args.id}`
     });
   },
-  doSomethingWith: (ctx, input) => {
+  doSomethingWith: (ctx, args, parent) => {
     ctx.success({
-      msg: `A${input.input.aParam}`
+      msg: `A${args.input.aParam}`
     });
   },
-  allMyDatas: (ctx, input) => {
+  allParentDatas: (ctx, args, parent) => {
     ctx.success([{
-      msg: `A`
+      id: '1',
+      msg: `Parent A`,
     }]);
   },
-  upsertMyData: (ctx, input) => {
+  childs: (ctx, args, parent) => {
+    ctx.success([{
+      id: '1',
+      msg: `Child A`,
+      parentId: parent.id,
+    }, {
+      id: '2',
+      msg: `Child B`,
+      parentId: parent.id,
+    }]);
+  },
+  child: (ctx, args, parent) => {
     ctx.success({
-      id: input.input.id,
+      id: '2',
+      msg: `Child B`,
+      parentId: parent.id,
+    });
+  },
+  upsertParentData: (ctx, args, parent) => {
+    ctx.success({
+      id: args.input.id,
       msg: `A`,
     });
   },
 };
 const SCHEMA_DEFINITION = `
-type MyData {
+type ParentData {
   id: ID!
   msg: String
+  childs: [ChildData]
+  child: ChildData
+}
+
+type ChildData {
+  id: ID!
+  msg: String
+  parentId: ID
 }
 
 input MyInput {
@@ -47,9 +74,9 @@ input MyInput {
 }
 
 type Query {
-  doSomething(): MyData
-  doSomethingFor(id: ID): MyData
-  doSomethingWith(input: MyInput): MyData
+  doSomething(): ParentData
+  doSomethingFor(id: ID): ParentData
+  doSomethingWith(input: MyInput): ParentData
 }
 `;
 
@@ -118,12 +145,38 @@ describe('Custom functions integration (no-relay)', function() {
       .then(result => assert.deepEqual(result, expectedData));
   });
 
-  it('override all query', () => {
+  it('override allXYZ resolver query', () => {
     const expectedData = helper.json(`${TEST_FIXTURES}/function-all-override.json`);
     const operationName = null;
     const rootValue = null;
     const contextValue = {environment: ENVIRONMENT, user: USER};
     const schemaQuery = helper.read(`${TEST_FIXTURES}/function-all-override.graphql`);
+    const variableValues = null;
+
+    return sut
+      .query(schemaQuery, variableValues, rootValue, contextValue, operationName)
+      .then(result => assert.deepEqual(result, expectedData));
+  });
+
+  it('override child-node resolver query', () => {
+    const expectedData = helper.json(`${TEST_FIXTURES}/function-child-node-override.json`);
+    const operationName = null;
+    const rootValue = null;
+    const contextValue = {environment: ENVIRONMENT, user: USER};
+    const schemaQuery = helper.read(`${TEST_FIXTURES}/function-child-node-override.graphql`);
+    const variableValues = null;
+
+    return sut
+      .query(schemaQuery, variableValues, rootValue, contextValue, operationName)
+      .then(result => assert.deepEqual(result, expectedData));
+  });
+
+  it('override child-node list resolver query', () => {
+    const expectedData = helper.json(`${TEST_FIXTURES}/function-child-node-list-override.json`);
+    const operationName = null;
+    const rootValue = null;
+    const contextValue = {environment: ENVIRONMENT, user: USER};
+    const schemaQuery = helper.read(`${TEST_FIXTURES}/function-child-node-list-override.graphql`);
     const variableValues = null;
 
     return sut

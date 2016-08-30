@@ -2,11 +2,11 @@
   "data": {
     "a": {
       "upsertedMyDataId": "test1",
-      "mydata": {
+      "myData": {
         "id": "test1",
         "msg": "A"
       },
-      "mydataEdge": {
+      "myDataEdge": {
         "cursor": "0",
         "node": {
           "id": "test1",
@@ -17,11 +17,11 @@
     "b": {
       "upsertedMyDataId": "test2",
       "clientMutationId": "foo",
-      "mydata": {
+      "myData": {
         "id": "test2",
         "msg": "A"
       },
-      "mydataEdge": {
+      "myDataEdge": {
         "cursor": "0",
         "node": {
           "id": "test2",

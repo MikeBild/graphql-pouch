@@ -12,13 +12,13 @@
 //   }
 // }
 
-module.exports = (ctx, input) => {
+module.exports = (ctx, args, parent) => {
   //Logging to output
-  ctx.log(input.name);
+  ctx.log(args.name);
 
   //Using PouchDB within your functions
   ctx.pouchdb('gettingstarted')
-    .find({ selector: {name: input.name} })
+    .find({ selector: {name: args.name} })
     .then(data => ctx.success(data.docs.map(toPost)));
 };
 

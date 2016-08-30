@@ -9,42 +9,42 @@ const USER = {};
 const TEST_FIXTURES = 'test/integration/functions/fixtures-relay';
 const ENABLE_RELAY = true;
 const CUSTOM_FUNCTIONS = {
-  doSomething: (ctx, input) => {
+  doSomething: (ctx, args, parent) => {
     ctx.success({
       msg: 'A'
     });
   },
-  doSomethingFor: (ctx, input) => {
+  doSomethingFor: (ctx, args, parent) => {
     ctx.success({
-      msg: `A${input.id}`
+      msg: `A${args.id}`
     });
   },
-  doSomethingWith: (ctx, input) => {
+  doSomethingWith: (ctx, args, parent) => {
     ctx.success({
-      msg: `A${input.input.aParam}`
+      msg: `A${args.input.aParam}`
     });
   },
-  allMyDatas: (ctx, input) => {
+  allMyDatas: (ctx, args, parent) => {
     ctx.success([{
       msg: `A`
     }]);
   },
-  upsertMyData: (ctx, input) => {
+  upsertMyData: (ctx, args, parent) => {
     ctx.success({
-      clientMutationId: input.input.clientMutationId,
-      id: input.input.id,
+      clientMutationId: args.input.clientMutationId,
+      id: args.input.id,
       msg: `A`,
     });
   },
-  upsertFoo: (ctx, input) => {
+  upsertFoo: (ctx, args, parent) => {
     const newDoc = {
-      _id: input.input.id,
-      _rev: input.input.rev,
-      msg: input.input.msg,
+      _id: args.input.id,
+      _rev: args.input.rev,
+      msg: args.input.msg,
     };
     ctx.pouchdb('function-relay-tests')
       .put(newDoc)
-      .then(data => Object.assign(newDoc, data, {clientMutationId: input.input.clientMutationId}))
+      .then(data => Object.assign(newDoc, data, {clientMutationId: args.input.clientMutationId}))
       .then(ctx.success);
   },
 };

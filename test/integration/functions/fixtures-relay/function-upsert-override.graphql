@@ -1,11 +1,11 @@
 mutation Upsert {
   a: upsertMyData(input: {id: "test1"}) {
     upsertedMyDataId
-    mydata {
+    myData {
       id
       msg
     }
-    mydataEdge {
+    myDataEdge {
     cursor
       node {
         id
@@ -16,11 +16,11 @@ mutation Upsert {
   b: upsertMyData(input: {id: "test2", clientMutationId: "foo"}) {
     upsertedMyDataId
     clientMutationId
-    mydata {
+    myData {
       id
       msg
     }
-    mydataEdge {
+    myDataEdge {
     cursor
       node {
         id
