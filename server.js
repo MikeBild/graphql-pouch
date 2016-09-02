@@ -12,6 +12,7 @@ const expressFavicon = require('serve-favicon');
 const expressResponseTime = require('response-time');
 const expressJWT = require('express-jwt');
 const expressGraphQL = require('express-graphql');
+const logout = require('./logout')();
 
 const graphqlPouch = require('./lib/pouch-graphql');
 const pouch = require('./lib/pouch-graphql/pouchdb');
@@ -51,9 +52,8 @@ app.all('/*', checkOptionalJWT, (req, res, next) => {
       content: (data.docs && data.docs[0]) ? data.docs[0].content : undefined
     }))
     .then(data => functions.exec({
-      input: Object.assign({}, req.query, req.body),
-      name: req.params.name,
-      context: {environment: 'default', user: req.user, method: req.method, name: req.params.name},
+      args: Object.assign({}, req.query, req.body),
+      context: {environment: 'default', user: req.user, method: req.method, name: docid},
       implementation: data.content,
     }))
     .then(data => {
@@ -92,19 +92,19 @@ module.exports = {
     initEnvs(options)
       .then(data => {
         data.forEach(x => {
-          if(x.message) return console.log(`GraphQL schema ${x.name} initialization error: ${x.message}`);
-          console.log(`Schema ${x.name} initialized`);
-          if(options.development) return console.log(`Schema ${x.name} running - http://127.0.0.1:${options.port}/graphql/${x.name}`);
+          if(x.message) return logout.error(`GraphQL schema ${x.name} initialization error: ${x.message}`);
+          logout.log(`Schema ${x.name} initialized`);
+          if(options.development) return logout.log(`Schema ${x.name} running - http://127.0.0.1:${options.port}/graphql/${x.name}`);
         });
       })
-      .catch(error => console.log(error))
+      .catch(error => logout.error(error))
 
     return {
       default: () => resolveEnv('default', null, options),
       start: () => {
-        console.log('\nStarting GraphQL-API runtime ...');
+        logout.log('Starting GraphQL-API runtime ...');
         const server = app.listen(options.port,
-          () => console.log(`Listen on port ${server.address().port}
+          () => logout.log(`Listen on port ${server.address().port}
 CouchDB sync URL: ${options.couchURL || 'none'}
 Relay enabled: ${options.relay || false}
 Development mode: ${options.development}
@@ -132,7 +132,7 @@ function resolveEnv(name, schemaDef, options, implementations) {
           since: 'now',
         })
         .on('change', info => {
-          console.log(`Schema update: Reinit environment ${info.id}`);
+          logout.log(`Schema update: Reinit environment ${info.id}`);
           delete envsCache[info.id];
           initEnvs(options);
           return;
@@ -147,7 +147,7 @@ function resolveEnv(name, schemaDef, options, implementations) {
 }
 
 function developmentFormatError(error) {
-  console.error(error.stack);
+  logout.error(error.stack);
   return {
     message: error.message,
     locations: error.locations,
@@ -172,7 +172,7 @@ function initEnvs(options){
             try {
               return resolveEnv(x._id, x.content, options, implementations);
             } catch(error) {
-              console.error(error)
+              logout.error(error)
               return {name: x._id, message: error.message};
             }
           });

@@ -47,6 +47,7 @@
     "morgan": "^1.7.0",
     "node-fetch": "^1.6.0",
     "node-uuid": "^1.4.7",
+    "paint-console": "0.0.1",
     "pouchdb": "^5.4.5",
     "pouchdb-find": "^0.10.2",
     "response-time": "^2.3.1",
