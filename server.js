@@ -24,6 +24,7 @@ app.use(expressResponseTime());
 app.use(expressBodyParser.json());
 app.use(expressCors());
 app.use(expressFavicon(path.join(__dirname, 'favicon.ico')));
+app.get('/_status', (req, res, next) => res.status(200).send({memMB: Math.floor((process.memoryUsage().rss / 1048576))}));
 
 app.use('/graphql/:name?', checkJWT, (req, res, next) => {
   const schemaName = req.params.name || 'default';
