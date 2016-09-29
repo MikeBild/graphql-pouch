@@ -12,6 +12,7 @@ const expressFavicon = require('serve-favicon');
 const expressResponseTime = require('response-time');
 const expressJWT = require('express-jwt');
 const expressGraphQL = require('express-graphql');
+const parseDataUrl = require('parse-data-url');
 const logout = require('./logout')();
 
 const graphqlPouch = require('./lib/pouch-graphql');
@@ -21,7 +22,7 @@ const functions = require('./lib/functions');
 const app = express();
 app.disable('x-powered-by');
 app.use(expressResponseTime());
-app.use(expressBodyParser.json());
+app.use(expressBodyParser.json({limit: '5mb'}));
 app.use(expressCors());
 app.use(expressFavicon(path.join(__dirname, 'favicon.ico')));
 app.get('/_status', (req, res, next) => res.status(200).send({memMB: Math.floor((process.memoryUsage().rss / 1048576))}));
@@ -77,6 +78,14 @@ app.all('/*', checkOptionalJWT, (req, res, next) => {
     }))
     .then(data => {
       if(!data.content) return res.sendStatus(404);
+
+      const parsed = parseDataUrl(data.content);
+      if(parsed){
+        res.type(parsed.mediaType);
+        res.send(parsed.toBuffer());
+        return;
+      }
+
       res.type(docid);
       res.send(data.content);
     })

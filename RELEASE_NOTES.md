@@ -1,3 +1,8 @@
+#### 1.1.3 - 09/29/16
+
+* increase JSON limit to 5MB
+* recognize document base64 content type
+
 #### 1.1.0 - 08/29/16
 
 * combining routes for functions and statics
