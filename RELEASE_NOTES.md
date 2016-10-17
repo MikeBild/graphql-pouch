@@ -1,3 +1,8 @@
+#### 1.1.4 - 17/10/16
+
+* Update GraphQL 0.7.2
+* Update PouchDB 6.0.7
+ 
 #### 1.1.3 - 09/29/16
 
 * increase JSON limit to 5MB
