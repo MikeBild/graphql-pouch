@@ -2,7 +2,7 @@ import React from 'react';
 import Relay from 'react-relay';
 import { Link, browserHistory } from 'react-router';
 
-export default class PostDelete extends React.Component {
+class PostDelete extends React.Component {
   static propTypes = {
     post: React.PropTypes.object.isRequired,
     viewer: React.PropTypes.object.isRequired,
@@ -33,7 +33,7 @@ export default class PostDelete extends React.Component {
   }
 }
 
-export default class DeleteMutation extends Relay.Mutation {
+class DeleteMutation extends Relay.Mutation {
   getVariables() {
     return {
       id: this.props.id

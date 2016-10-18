@@ -1,5 +1,7 @@
 const fs = require('fs');
 const path = require('path');
+const events = require('events');
+const dispatcher = new events.EventEmitter();
 
 const logger = require('morgan');
 const _ = require('lodash');
@@ -25,7 +27,20 @@ app.use(expressResponseTime());
 app.use(expressBodyParser.json({limit: '5mb'}));
 app.use(expressCors());
 app.use(expressFavicon(path.join(__dirname, 'favicon.ico')));
+
 app.get('/_status', (req, res, next) => res.status(200).send({memMB: Math.floor((process.memoryUsage().rss / 1048576))}));
+app.get('/graphql/:name?/_subscribe', (req, res) => {
+  res.set('Content-Type', 'text/plain;charset=utf-8');
+  res.set('Cache-Control', 'no-cache, must-revalidate');
+
+  dispatcher.once('message', message => res.end(message));
+});
+app.post('/graphql/:name?/_publish', (req, res) => {
+    dispatcher.emit('message', JSON.stringify(req.body));
+    res.set('Content-Type', 'text/plain;charset=utf-8');
+    res.end('ok');
+});
+
 
 app.use('/graphql/:name?', checkJWT, (req, res, next) => {
   const schemaName = req.params.name || 'default';

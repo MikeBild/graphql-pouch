@@ -3,7 +3,7 @@ import Relay from 'react-relay';
 import { Link } from 'react-router';
 import PostItem from './PostItem';
 
-export default class PostList extends React.Component {
+class PostList extends React.Component {
   loadNextPage = () => {
     this.props.relay.setVariables({
       after: this.props.viewer.allPosts.pageInfo.endCursor,

@@ -1,8 +1,10 @@
 import React from 'react';
 import Relay from 'react-relay';
 import { Link, browserHistory } from 'react-router';
+import { Subscription } from 'relay-subscriptions';
+import RelaySubscriptions from 'relay-subscriptions';
 
-export default class PostCreate extends React.Component {
+class PostCreate extends React.Component {
   static propTypes = {
     relay: React.PropTypes.object.isRequired,
     viewer: React.PropTypes.object.isRequired,
@@ -90,7 +92,36 @@ class PostMutation extends Relay.Mutation {
   }
 }
 
-export default Relay.createContainer(PostCreate, {
+class AddPostSubscription extends Subscription {
+  getSubscription() {
+    return Relay.QL`
+      subscription {
+        addPostSubscription(input: $input) {
+          ... on Post {
+            id
+          }
+        }
+      }
+    `;
+  }
+
+  getConfigs() {
+    return [{
+      type: 'RANGE_ADD',
+      parentName: 'viewer',
+      parentID: this.props.viewer.id,
+      connectionName: 'posts',
+      edgeName: 'postEdge',
+      rangeBehaviors: () => 'append',
+    }];
+  }
+
+  getVariables() {
+    return {};
+  }
+}
+
+export default RelaySubscriptions.createContainer(PostCreate, {
   fragments: {
     viewer: () => Relay.QL`
       fragment on Viewer {
@@ -98,4 +129,9 @@ export default Relay.createContainer(PostCreate, {
       }
     `,
   },
+  subscriptions: [
+    ({ pending, viewer }) => {
+      return !pending && new AddPostSubscription({ viewer })
+    }
+  ],  
 });

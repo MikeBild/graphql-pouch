@@ -2,7 +2,7 @@ import React from 'react';
 import Relay from 'react-relay';
 import { Link, browserHistory } from 'react-router';
 
-export default class PostUpdate extends React.Component {
+class PostUpdate extends React.Component {
   static propTypes = {
     post: React.PropTypes.object.isRequired,
     viewer: React.PropTypes.object.isRequired,
@@ -42,7 +42,7 @@ export default class PostUpdate extends React.Component {
   }
 }
 
-export default class PostMutation extends Relay.Mutation { 
+class PostMutation extends Relay.Mutation { 
   getVariables() {
     return {
       id: this.props.id,

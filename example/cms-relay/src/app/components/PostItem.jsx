@@ -2,7 +2,7 @@ import React from 'react';
 import Relay from 'react-relay';
 import { Link } from 'react-router';
 
-export default class PostItem extends React.Component {
+class PostItem extends React.Component {
   static propTypes = {
     post: React.PropTypes.object.isRequired,
     relay: React.PropTypes.object.isRequired,

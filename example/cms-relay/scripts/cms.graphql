@@ -59,3 +59,11 @@ type FunctionData {
 type Query {
   demofunc1(id: ID) : FunctionData
 }
+
+input PostDemoInput {
+  id: ID!
+}
+
+type Subscription {
+  addPostSubscription(input: PostDemoInput) : Post
+}
