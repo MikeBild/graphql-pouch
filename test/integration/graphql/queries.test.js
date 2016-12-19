@@ -15,20 +15,24 @@ const SCHEMA_DEFINITION = `
 type Post {
   id: ID
   rev: String
-  personId: ID
   title: String
   body: String
+  personId: ID
   person: Person
+  tagsIds: [ID]
+  tags: [Tag]
 }
 
 type Comment {
   id: ID
   rev: String
-  personId: ID
-  postId: ID
   title: String
+  personId: ID
   person: Person
+  postId: ID
   post: Post
+  tagsIds: [ID]
+  tags: [Tag]
 }
 
 type Person {
@@ -54,6 +58,7 @@ describe('GraphQL query integration (no-relay)', () => {
       title: 'title 1',
       body: 'body 1',
       personId: 'joe',
+      tagsIds: ['a1', 'b1'],
     };
     const post2 = {
       doctype: 'Post',
@@ -61,6 +66,7 @@ describe('GraphQL query integration (no-relay)', () => {
       title: 'title 2',
       body: 'body 2',
       personId: 'joe',
+      tagsIds: ['a1'],
     };
     const post3 = {
       doctype: 'Post',
@@ -68,6 +74,7 @@ describe('GraphQL query integration (no-relay)', () => {
       title: 'title 3',
       body: 'body 3',
       personId: 'joe',
+      tagsIds: [],
     };
     const post4 = {
       doctype: 'Post',
@@ -86,6 +93,16 @@ describe('GraphQL query integration (no-relay)', () => {
       _id: 'jay',
       name: 'Jane Doe',
     };
+    const tagA1 = {
+      doctype: 'Tag',
+      _id: 'a1',
+      value: 'A1',
+    };
+    const tagB1 = {
+      doctype: 'Tag',
+      _id: 'b1',
+      value: 'B1',
+    };
 
     return db.bulkDocs([
       post1,
@@ -94,6 +111,8 @@ describe('GraphQL query integration (no-relay)', () => {
       post4,
       personJoe,
       personJay,
+      tagA1,
+      tagB1,
     ]);
   });
 

@@ -1,0 +1,42 @@
+{
+  "data": {
+    "allPosts": [
+      {
+        "id": "test1",
+        "body": "body 1",
+        "title": "title 1",
+        "tags": [{
+          "value": "A1"
+        }, {
+          "value": "B1"
+        }]
+      },
+      {
+        "id": "test101",
+        "body": null,
+        "title": "title 1",
+        "tags": []
+      },
+      {
+        "id": "test102",
+        "body": "body 2",
+        "title": "title 2",
+        "tags": []
+      },
+      {
+        "id": "test2",
+        "title": "title 2",
+        "body": "body 2",
+        "tags": [{
+          "value": "A1"
+        }]
+      },
+      {
+        "id": "test4",
+        "body": "body 4",
+        "title": "title 4",
+        "tags": []
+      }
+    ]
+  }
+}

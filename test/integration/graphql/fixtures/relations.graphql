@@ -1,0 +1,10 @@
+{
+  allPosts {
+    id
+    title
+    body
+    tags {
+      value
+    }
+  }
+}
