@@ -24,6 +24,16 @@
         "tags": []
       },
       {
+        "id": "test103",
+        "body": "body 3",
+        "title": "title 3",
+        "tags": [{
+          "value": "A1"
+        }, {
+          "value": "B1"
+        }]
+      },
+      {
         "id": "test2",
         "title": "title 2",
         "body": "body 2",

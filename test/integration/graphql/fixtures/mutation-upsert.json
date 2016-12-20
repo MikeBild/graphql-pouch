@@ -6,7 +6,8 @@
         "body": null,
         "id": "test101",
         "personId": "joe",
-        "title": "title 1"
+        "title": "title 1",
+        "tags": []
       }
     },
     "b": {
@@ -15,7 +16,22 @@
         "body": "body 2",
         "id": "test102",
         "personId": "joe",
-        "title": "title 2"
+        "title": "title 2",
+        "tags": []
+      }
+    },
+    "c": {
+      "upsertedPostId": "test103",
+      "post": {
+        "body": "body 3",
+        "id": "test103",
+        "personId": "joe",
+        "title": "title 3",
+        "tags": [{
+          "value": "A1"
+        }, {
+          "value": "B1"
+        }]
       }
     }
   }
