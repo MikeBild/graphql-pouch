@@ -63,6 +63,10 @@
     "grunt-nodemon": "^0.4.2",
     "mocha": "^2.5.3"
   },
+  "resolutions": {
+    "nan": "2.14.1",
+    "node-gyp": "5.1.0"
+  },
   "eslintConfig": {
     "env": {
       "node": true
